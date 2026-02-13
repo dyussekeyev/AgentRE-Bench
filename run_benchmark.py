@@ -93,14 +93,8 @@ def main():
 
     args = parser.parse_args()
 
-    # Set up logging — verbose shows DEBUG, otherwise just WARNING+ for clean output
-    if args.verbose:
-        log_level = logging.DEBUG
-        log_format = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
-    else:
-        log_level = logging.WARNING
-        log_format = "[%(levelname)s] %(message)s"
-    logging.basicConfig(level=log_level, format=log_format)
+    # Logging is for errors only — all user-facing output goes through print()
+    logging.basicConfig(level=logging.WARNING, format="[%(levelname)s] %(message)s")
 
     # Determine default model per provider
     model_defaults = {

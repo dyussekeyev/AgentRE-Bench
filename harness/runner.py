@@ -93,13 +93,8 @@ def run_single_task(
     task: TaskConfig,
     config: BenchmarkConfig,
 ) -> tuple[TaskMetrics, dict[str, Any]]:
-    log.info("=" * 60)
-    log.info("Task: %s (difficulty %d)", task.task_id, task.difficulty)
-    log.info("=" * 60)
-
     # Validate binary exists
     if not task.binary_path.exists():
-        log.error("Binary not found: %s", task.binary_path)
         raise FileNotFoundError(f"Binary not found: {task.binary_path}")
 
     # Load ground truth
@@ -142,13 +137,6 @@ def run_single_task(
     score_result = score_sample(gt, final_answer, str(task.ground_truth_path))
     score_result["sample"] = task.task_id
 
-    log.info(
-        "Score for %s: %.4f (tier: %s)",
-        task.task_id,
-        score_result["final_score"],
-        score_result["tier"],
-    )
-
     # Collect metrics
     metrics = collect_task_metrics(task.task_id, agent_result, score_result)
 
@@ -189,21 +177,56 @@ def run_benchmark(
     if task_filter:
         tasks = [t for t in tasks if t.task_id == task_filter]
         if not tasks:
-            log.error("No task found matching %r", task_filter)
             raise ValueError(f"No task found matching {task_filter!r}")
 
-    log.info("Running %d task(s) with %s/%s", len(tasks), config.provider, config.model)
+    total = len(tasks)
+    mode = "docker" if config.use_docker else "local"
+
+    # Banner
+    print(f"\n{'='*60}")
+    print(f"  AgentRE-Bench")
+    print(f"  {config.provider}/{config.model} | {total} task{'s' if total != 1 else ''} | {mode}")
+    print(f"{'='*60}")
 
     all_metrics: list[TaskMetrics] = []
     all_scores: list[dict] = []
 
-    for task in tasks:
+    for i, task in enumerate(tasks, 1):
+        if config.verbose:
+            # Verbose: full header, agent prints detailed output
+            print(f"\n{'─'*60}")
+            print(f"  [{i}/{total}] {task.task_id}  (difficulty {task.difficulty})")
+            print(f"{'─'*60}")
+        else:
+            # Non-verbose: print task name, dots will follow from agent
+            label = f"  [{i:>{len(str(total))}}/{total}] {task.task_id}"
+            print(f"{label} ", end="", flush=True)
+
         try:
             metrics, score_result = run_single_task(task, config)
             all_metrics.append(metrics)
             all_scores.append(score_result)
+
+            if config.verbose:
+                print(
+                    f"\n  Score: {metrics.score:.4f}  "
+                    f"({metrics.tool_calls_total} calls, "
+                    f"{metrics.wall_time_seconds:.1f}s, "
+                    f"{metrics.total_tokens:,} tokens)"
+                )
+            else:
+                # Complete the line after dots
+                print(
+                    f" {metrics.score:.4f}  "
+                    f"({metrics.tool_calls_total} calls, "
+                    f"{metrics.wall_time_seconds:.1f}s)"
+                )
         except Exception as e:
             log.error("Task %s failed: %s", task.task_id, e, exc_info=True)
+            if config.verbose:
+                print(f"\n  FAILED: {e}")
+            else:
+                print(f" FAILED")
             continue
 
     # Compute aggregate metrics
@@ -232,6 +255,6 @@ def run_benchmark(
     with open(report_path, "w") as f:
         json.dump(report, f, indent=2, default=str)
 
-    log.info("Report saved to %s", report_path)
+    print(f"\nReport saved to {report_path}")
 
     return aggregate, all_metrics, all_scores

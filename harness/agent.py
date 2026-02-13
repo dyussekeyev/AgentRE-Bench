@@ -39,9 +39,14 @@ class AgentLoop:
         self.invalid_json_attempts = 0
 
     def _vprint(self, *args, **kwargs):
-        """Print to stdout only when verbose mode is on."""
+        """Print only in verbose mode."""
         if self.verbose:
             print(*args, **kwargs, flush=True)
+
+    def _dot(self):
+        """Print a progress dot in non-verbose mode."""
+        if not self.verbose:
+            print(".", end="", flush=True)
 
     def run(self) -> dict[str, Any]:
         start_time = time.time()
@@ -60,10 +65,6 @@ class AgentLoop:
         final_answer = None
         max_steps_hit = False
 
-        self._vprint(f"\n{'='*70}")
-        self._vprint(f"  AGENT LOOP START — {self.task_id}")
-        self._vprint(f"{'='*70}")
-
         while self.tool_call_count < self.max_tool_calls:
             try:
                 response = self.provider.create_message(
@@ -80,17 +81,11 @@ class AgentLoop:
             self.input_tokens += response.input_tokens
             self.output_tokens += response.output_tokens
 
-            self._vprint(
-                f"\n  [tokens: +{response.input_tokens} in / "
-                f"+{response.output_tokens} out | "
-                f"stop: {response.stop_reason}]"
-            )
-
             if response.stop_reason == "tool_use" and response.tool_calls:
-                # Show agent reasoning
+                # Show agent reasoning (verbose only)
                 if response.text_content:
-                    self._vprint(f"\n  AGENT REASONING:")
-                    for line in response.text_content.splitlines():
+                    self._vprint(f"\n  Agent:")
+                    for line in response.text_content.strip().splitlines():
                         self._vprint(f"    {line}")
 
                 # Build assistant content blocks
@@ -121,15 +116,13 @@ class AgentLoop:
                         "input": tc.input,
                     })
 
-                    log.info(
-                        "[%s] Tool call #%d: %s(%s)",
-                        self.task_id, self.tool_call_count, tc.name,
-                        json.dumps(tc.input, default=str)[:200],
-                    )
-
+                    # Verbose: show step and tool info
+                    args_str = json.dumps(tc.input, default=str)
+                    if len(args_str) > 120:
+                        args_str = args_str[:120] + "..."
                     self._vprint(
-                        f"\n  TOOL #{self.tool_call_count}: {tc.name}"
-                        f"({json.dumps(tc.input, default=str)})"
+                        f"\n  [{self.tool_call_count}/{self.max_tool_calls}] "
+                        f"{tc.name}  {args_str}"
                     )
 
                     result = self.tool_executor.execute(tc.name, tc.input)
@@ -137,11 +130,8 @@ class AgentLoop:
                     if result.get("is_final_answer"):
                         final_answer = result["answer"]
                         self.tool_calls_log[-1]["is_final_answer"] = True
-                        log.info("[%s] Final answer received.", self.task_id)
-                        self._vprint(f"\n  FINAL ANSWER SUBMITTED:")
-                        self._vprint(
-                            f"    {json.dumps(final_answer, indent=2, default=str)}"
-                        )
+                        self._vprint(f"\n  Final answer submitted")
+                        self._dot()
                         break
 
                     if result.get("error"):
@@ -152,13 +142,16 @@ class AgentLoop:
 
                     self.tool_calls_log[-1]["output_preview"] = output_text[:500]
 
-                    # Show tool output (truncated for readability)
-                    self._vprint(f"  OUTPUT ({len(output_text)} chars):")
-                    preview = output_text[:2000]
-                    for line in preview.splitlines()[:40]:
-                        self._vprint(f"    {line}")
-                    if len(output_text) > 2000 or len(output_text.splitlines()) > 40:
-                        self._vprint(f"    ... [truncated in verbose view]")
+                    # Verbose: show output preview
+                    self._vprint(f"    -> {len(output_text)} chars")
+                    preview_lines = output_text[:1500].splitlines()[:20]
+                    for line in preview_lines:
+                        self._vprint(f"       {line[:120]}")
+                    if len(output_text) > 1500 or len(output_text.splitlines()) > 20:
+                        self._vprint(f"       ... [truncated]")
+
+                    # Non-verbose: progress dot
+                    self._dot()
 
                     tool_results.append({
                         "type": "tool_result",
@@ -172,7 +165,7 @@ class AgentLoop:
                 if tool_results:
                     self.messages.append({"role": "user", "content": tool_results})
 
-                    # Budget warning when running low on tool calls
+                    # Budget warnings
                     remaining = self.max_tool_calls - self.tool_call_count
                     if remaining == 5:
                         self.messages.append({
@@ -185,7 +178,7 @@ class AgentLoop:
                                 "rather than running out of tool calls."
                             ),
                         })
-                        self._vprint(f"\n  ** Budget warning injected (5 calls left) **")
+                        self._vprint(f"\n  ** Budget warning: 5 calls left **")
                     elif remaining == 2:
                         self.messages.append({
                             "role": "user",
@@ -195,20 +188,19 @@ class AgentLoop:
                                 "best analysis. Do not use any more investigation tools."
                             ),
                         })
-                        self._vprint(f"\n  ** Critical budget warning (2 calls left) **")
+                        self._vprint(f"\n  ** Budget warning: 2 calls left **")
 
             elif response.stop_reason == "end_turn":
                 if response.text_content:
-                    self._vprint(f"\n  AGENT TEXT (end_turn, no tool call):")
-                    for line in response.text_content.splitlines():
+                    self._vprint(f"\n  Agent (no tool call):")
+                    for line in response.text_content.strip().splitlines()[:10]:
                         self._vprint(f"    {line}")
 
                 # Agent stopped without calling a tool — try to extract JSON
                 extracted = self._try_extract_json(response.text_content)
                 if extracted is not None:
                     final_answer = extracted
-                    log.info("[%s] Extracted final answer from text.", self.task_id)
-                    self._vprint(f"\n  (extracted JSON answer from text)")
+                    self._vprint(f"  (extracted answer from text)")
                     break
 
                 # Prompt agent to use final_answer tool
@@ -228,9 +220,7 @@ class AgentLoop:
                 })
 
             elif response.stop_reason == "max_tokens":
-                log.warning("[%s] Hit max_tokens.", self.task_id)
                 self._vprint(f"\n  !! Hit max_tokens — continuing")
-                # Add what we got and continue
                 if response.text_content:
                     self.messages.append({
                         "role": "assistant",
@@ -241,25 +231,20 @@ class AgentLoop:
                         "content": "Please continue your analysis and submit via final_answer tool.",
                     })
             else:
-                log.warning("[%s] Unexpected stop_reason: %s", self.task_id, response.stop_reason)
                 self._vprint(f"\n  !! Unexpected stop: {response.stop_reason}")
                 break
 
         else:
             max_steps_hit = True
-            log.warning("[%s] Hit max tool calls limit (%d).", self.task_id, self.max_tool_calls)
             self._vprint(f"\n  !! Hit max tool calls limit ({self.max_tool_calls})")
 
-        self._vprint(f"\n{'='*70}")
-        self._vprint(f"  AGENT LOOP END — {self.task_id}")
-        self._vprint(
-            f"  {self.tool_call_count} tool calls | "
-            f"{self.input_tokens} in + {self.output_tokens} out tokens | "
-            f"{time.time() - start_time:.1f}s"
-        )
-        self._vprint(f"{'='*70}\n")
-
         wall_time = time.time() - start_time
+
+        self._vprint(
+            f"\n  Done: {self.tool_call_count} calls, "
+            f"{wall_time:.1f}s, "
+            f"{self.input_tokens + self.output_tokens:,} tokens"
+        )
 
         # Compute tool usage stats
         tool_calls_by_type: dict[str, int] = {}
@@ -294,7 +279,6 @@ class AgentLoop:
     def _try_extract_json(self, text: str) -> dict | None:
         if not text:
             return None
-        # Look for JSON blocks in text
         import re
         patterns = [
             r"```json\s*(.*?)```",
