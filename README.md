@@ -199,7 +199,8 @@ Plus `final_answer` — a structured submission tool the agent calls when done.
 ### Prerequisites
 
 - Python 3.10+
-- Docker
+- **Linux x86-64**: gcc, binutils, file, xxd, python3 (for local builds and `--no-docker` mode)
+- **macOS**: Docker (for cross-compilation and sandboxed tool execution)
 
 ### 1. Clone and Configure
 
@@ -219,7 +220,8 @@ chmod +x build_binaries.sh
 ./build_binaries.sh
 ```
 
-Cross-compiles all 13 C sources to x86-64 ELF64 binaries via Docker. Works on x86 Linux and Apple Silicon (`--platform linux/amd64`).
+On **Linux x86-64**: uses local gcc directly (install with `apt install gcc` if needed — no Docker required).
+On **macOS / Apple Silicon**: uses Docker with `--platform linux/amd64` to cross-compile.
 
 ### 3. Build Tools Image
 

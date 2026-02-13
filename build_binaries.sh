@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 #
-# build_binaries.sh — Cross-compile all 13 C samples to ELF64 binaries
-# using Docker (gcc:latest image). Works on macOS and Linux.
+# build_binaries.sh — Compile all 13 C samples to ELF64 x86-64 binaries.
+#
+# On Linux x86-64: uses local gcc directly (no Docker needed).
+# On macOS / other: uses Docker with --platform linux/amd64 to cross-compile.
 #
 # Output: binaries/ directory with 13 ELF64 executables.
 #
@@ -17,14 +19,26 @@ CFLAGS="-O0 -fno-stack-protector -no-pie -z execstack -static"
 
 mkdir -p "$BINARIES_DIR"
 
+# Detect build mode: local gcc or Docker
+USE_DOCKER=true
+if command -v gcc &>/dev/null && [[ "$(uname -s)" == "Linux" ]] && [[ "$(uname -m)" == "x86_64" ]]; then
+    USE_DOCKER=false
+elif ! command -v docker &>/dev/null; then
+    echo "Error: Neither local gcc (on Linux x86-64) nor docker found."
+    echo "Install gcc (apt install gcc) or Docker to build binaries."
+    exit 1
+fi
+
 echo "=== AgentRE-Bench: Building ELF64 binaries ==="
 echo "Samples dir:  $SAMPLES_DIR"
 echo "Output dir:   $BINARIES_DIR"
-echo "Docker image: $DOCKER_IMAGE"
+if [ "$USE_DOCKER" = true ]; then
+    echo "Build mode:   Docker ($DOCKER_IMAGE)"
+    docker pull "$DOCKER_IMAGE" 2>/dev/null || true
+else
+    echo "Build mode:   Local gcc ($(gcc --version | head -1))"
+fi
 echo ""
-
-# Pull the image if not present
-docker pull "$DOCKER_IMAGE" 2>/dev/null || true
 
 # Mapping: source filename (may have spaces) → output binary name
 declare -A NAME_MAP
@@ -58,20 +72,31 @@ for SRC in "$SAMPLES_DIR"/*.c; do
         EXTRA_FLAGS="-shared -fPIC -ldl"
     fi
 
-    # Compile inside Docker (force x86-64 even on Apple Silicon)
-    if docker run --rm \
-        --platform linux/amd64 \
-        -v "$SAMPLES_DIR:/src:ro" \
-        -v "$BINARIES_DIR:/out" \
-        -w /src \
-        "$DOCKER_IMAGE" \
-        bash -c "gcc $CFLAGS $EXTRA_FLAGS -o '/out/$OUTNAME' '/src/$BASENAME.c' -lm 2>&1" \
-    ; then
-        echo "OK"
-        SUCCESS=$((SUCCESS + 1))
+    if [ "$USE_DOCKER" = true ]; then
+        # Docker build (macOS / non-x86-64)
+        if docker run --rm \
+            --platform linux/amd64 \
+            -v "$SAMPLES_DIR:/src:ro" \
+            -v "$BINARIES_DIR:/out" \
+            -w /src \
+            "$DOCKER_IMAGE" \
+            bash -c "gcc $CFLAGS $EXTRA_FLAGS -o '/out/$OUTNAME' '/src/$BASENAME.c' -lm 2>&1" \
+        ; then
+            echo "OK"
+            SUCCESS=$((SUCCESS + 1))
+        else
+            echo "FAILED"
+            FAIL=$((FAIL + 1))
+        fi
     else
-        echo "FAILED"
-        FAIL=$((FAIL + 1))
+        # Local gcc build (Linux x86-64)
+        if gcc $CFLAGS $EXTRA_FLAGS -o "$BINARIES_DIR/$OUTNAME" "$SRC" -lm 2>&1; then
+            echo "OK"
+            SUCCESS=$((SUCCESS + 1))
+        else
+            echo "FAILED"
+            FAIL=$((FAIL + 1))
+        fi
     fi
 done
 
