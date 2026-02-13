@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentRE-Bench — LLM Reverse Engineering Benchmark</title>
+<meta name="description" content="A benchmark for evaluating LLM agents on long-horizon reverse engineering tasks with deterministic scoring.">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a12;
+  --surface: #111119;
+  --surface-alt: #16161f;
+  --border: #1e1e2a;
+  --text: #e0e0e8;
+  --text-dim: #8888a0;
+  --accent: #00d4aa;
+  --accent-dim: rgba(0, 212, 170, 0.12);
+  --indigo: #6366f1;
+  --indigo-dim: rgba(99, 102, 241, 0.12);
+  --red: #ef4444;
+  --orange: #f59e0b;
+  --yellow: #eab308;
+  --green: #22c55e;
+  --cyan: #06b6d4;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: "SF Mono", "Cascadia Code", "Fira Code", Consolas, monospace;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+a { color: var(--accent); text-decoration: none; transition: opacity 0.15s; }
+a:hover { opacity: 0.8; }
+
+/* ── Hero ── */
+.hero {
+  padding: 100px 0 80px;
+  text-align: center;
+}
+.hero-label {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid rgba(0, 212, 170, 0.2);
+  border-radius: 100px;
+  padding: 6px 16px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.hero h1 .accent { color: var(--accent); }
+.hero .subtitle {
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  color: var(--text-dim);
+  font-weight: 400;
+  margin-bottom: 28px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero .pitch {
+  font-size: 1rem;
+  color: var(--text-dim);
+  max-width: 640px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn:hover { transform: translateY(-1px); opacity: 1; }
+.btn-primary {
+  background: var(--accent);
+  color: #0a0a12;
+}
+.btn-primary:hover { box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3); }
+.btn-outline {
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: var(--surface);
+  margin-left: 12px;
+}
+.btn-outline:hover { border-color: var(--accent); }
+
+.gh-icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* ── Section Shared ── */
+section { padding: 72px 0; }
+.section-tag {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--indigo);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.section-desc {
+  color: var(--text-dim);
+  max-width: 640px;
+  margin-bottom: 40px;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* ── Why Cards ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 24px;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--accent); }
+.card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+.card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.card p {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ── Task Table ── */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+thead th {
+  text-align: left;
+  padding: 14px 16px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-alt);
+  white-space: nowrap;
+}
+thead th:first-child { border-radius: 12px 0 0 0; }
+thead th:last-child { border-radius: 0 12px 0 0; }
+tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--surface-alt); }
+.level-num {
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--accent);
+}
+.diff-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.diff-trivial { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+.diff-easy    { background: rgba(6, 182, 212, 0.15); color: var(--cyan); }
+.diff-medium  { background: rgba(234, 179, 8, 0.15); color: var(--yellow); }
+.diff-hard    { background: rgba(245, 158, 11, 0.15); color: var(--orange); }
+.diff-vhard   { background: rgba(239, 68, 68, 0.15); color: var(--red); }
+.diff-bonus   { background: rgba(99, 102, 241, 0.15); color: var(--indigo); }
+.task-name { font-weight: 500; }
+.task-desc {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+/* ── Scoring ── */
+.scoring-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 640px) { .scoring-grid { grid-template-columns: 1fr; } }
+.scoring-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 24px;
+}
+.scoring-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.field-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+}
+.field-row:last-child { border-bottom: none; }
+.field-name {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+.field-weight {
+  font-weight: 600;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+.penalty-note {
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 8px;
+  font-size: 0.84rem;
+  color: var(--red);
+}
+.formula-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 24px;
+}
+.formula-box h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.formula {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  line-height: 2;
+  color: var(--text-dim);
+}
+.formula span { color: var(--accent); }
+
+/* ── Getting Started ── */
+.steps {
+  display: grid;
+  gap: 16px;
+}
+.step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+.step-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(0, 212, 170, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.step h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.step code {
+  display: block;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  overflow-x: auto;
+  line-height: 1.7;
+  margin-top: 8px;
+  white-space: pre;
+}
+.step p {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 0;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.84rem;
+}
+footer a { color: var(--text-dim); }
+footer a:hover { color: var(--accent); }
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 12px;
+}
+</style>
+</head>
+<body>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-label">Reverse Engineering Benchmark</div>
+    <h1>Agent<span class="accent">RE</span>-Bench</h1>
+    <p class="subtitle">Long-horizon reverse engineering tasks for LLM agents, scored deterministically.</p>
+    <p class="pitch">
+      Give an LLM agent a compiled binary and a set of static analysis tools.
+      Measure how well it identifies C2 infrastructure, encoding schemes, anti-analysis techniques, and communication protocols &mdash; all without human guidance.
+    </p>
+    <div>
+      <a href="https://github.com/agentrebench/AgentRE-Bench" class="btn btn-primary">
+        <svg class="gh-icon" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        View on GitHub
+      </a>
+      <a href="#getting-started" class="btn btn-outline">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Why This Benchmark ── -->
+<section id="why">
+  <div class="container">
+    <div class="section-tag">Why This Benchmark</div>
+    <h2 class="section-title">What makes AgentRE-Bench different</h2>
+    <p class="section-desc">
+      Simple Q&amp;A benchmarks don't differentiate frontier models on real-world reasoning.
+      AgentRE-Bench tests chains of 10&ndash;25 tool calls where each call's output informs the next decision.
+    </p>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon" style="background: var(--accent-dim); color: var(--accent);">&#x2727;</div>
+        <h3>Synthetic</h3>
+        <p>All 13 binaries are compiled from purpose-built C sources with known ground truths. No licensing or ethics issues &mdash; anyone can compile identical binaries and verify scores.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background: var(--indigo-dim); color: var(--indigo);">&#x2263;</div>
+        <h3>Deterministic</h3>
+        <p>Every answer is scored against a fixed ground truth with weighted fields and Jaccard overlap for sets. No LLM-as-judge. The same answer always produces the same score.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background: rgba(234,179,8,0.12); color: var(--yellow);">&#x2699;</div>
+        <h3>Agentic</h3>
+        <p>Agents must plan which tools to use, interpret raw output (hex dumps, disassembly), and synthesize findings &mdash; all within a budget of 25 tool calls per task.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background: rgba(239,68,68,0.12); color: var(--red);">&#x21C6;</div>
+        <h3>Long-Horizon</h3>
+        <p>The hardest levels require entropy analysis, key extraction, decryption, and identifying 18+ techniques across anti-debugging, process injection, and network evasion.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Task Progression ── -->
+<section id="tasks">
+  <div class="container">
+    <div class="section-tag">Task Progression</div>
+    <h2 class="section-title">13 levels of increasing difficulty</h2>
+    <p class="section-desc">
+      From plaintext TCP shells to metamorphic droppers with RC4 encryption, control-flow flattening, and triple anti-debug.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Task</th>
+            <th>Description</th>
+            <th>Difficulty</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="level-num">1</td>
+            <td class="task-name">TCP Reverse Shell</td>
+            <td class="task-desc">Plaintext C2 address, no obfuscation. Connects via socket, redirects I/O with dup2, executes /bin/sh.</td>
+            <td><span class="diff-badge diff-trivial">Trivial</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">2</td>
+            <td class="task-name">XOR Encoded Strings</td>
+            <td class="task-desc">TCP reverse shell with XOR-encoded host, port, and shell path. Single-byte key 0x22, decoded at runtime.</td>
+            <td><span class="diff-badge diff-easy">Easy</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">3</td>
+            <td class="task-name">Anti-Debugging Shell</td>
+            <td class="task-desc">Detects ptrace, checks LD_PRELOAD, delays execution 30&ndash;90s, forks to background before connecting.</td>
+            <td><span class="diff-badge diff-easy">Easy</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">4</td>
+            <td class="task-name">Polymorphic Shell</td>
+            <td class="task-desc">Generates randomized NOP sled + x86-64 shellcode at runtime. Runtime variation defeats static signatures.</td>
+            <td><span class="diff-badge diff-medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">5</td>
+            <td class="task-name">Multistage Shell</td>
+            <td class="task-desc">Stage 1 receives XOR key from C2. Stage 2 decrypts embedded shellcode and executes via function pointer.</td>
+            <td><span class="diff-badge diff-medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">6</td>
+            <td class="task-name">ICMP Covert Channel</td>
+            <td class="task-desc">Raw socket ICMP echo requests with commands hidden in data section. Custom checksum, 5s beacon interval.</td>
+            <td><span class="diff-badge diff-medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">7</td>
+            <td class="task-name">DNS Tunnel Shell</td>
+            <td class="task-desc">DNS beacons, TXT record commands, popen() execution, hex-encoded subdomain exfiltration.</td>
+            <td><span class="diff-badge diff-medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">8</td>
+            <td class="task-name">Process Hollowing</td>
+            <td class="task-desc">Forks /bin/sleep, overwrites code via PTRACE_POKETEXT, modifies RIP to execute injected shellcode.</td>
+            <td><span class="diff-badge diff-hard">Hard</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">9</td>
+            <td class="task-name">Shared Object Injection</td>
+            <td class="task-desc">Constructor-triggered .so with puts() hijacking via dlsym(RTLD_NEXT). Evades LD_AUDIT/LD_PRELOAD detection.</td>
+            <td><span class="diff-badge diff-hard">Hard</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">10</td>
+            <td class="task-name">AES Encrypted Shell</td>
+            <td class="task-desc">Claims AES, actually 16-byte XOR key. Inline assembly syscalls. Decrypts shellcode into mmap'd RWX memory.</td>
+            <td><span class="diff-badge diff-hard">Hard</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">11</td>
+            <td class="task-name">Fork Bomb Shell</td>
+            <td class="task-desc">Fork bomb as DoS distraction while child process connects reverse shell to C2 after 1s delay.</td>
+            <td><span class="diff-badge diff-hard">Hard</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">12</td>
+            <td class="task-name">JIT Compiled Shellcode</td>
+            <td class="task-desc">Allocates RWX memory, copies template shellcode, patches IP/port offsets at runtime. Self-modifying code.</td>
+            <td><span class="diff-badge diff-vhard">Very Hard</span></td>
+          </tr>
+          <tr>
+            <td class="level-num">13</td>
+            <td class="task-name">Metamorphic Dropper</td>
+            <td class="task-desc">RC4-encrypted strings, control-flow flattening, triple anti-debug, self-modifying code, process hiding via /proc/self/mem. 18 techniques.</td>
+            <td><span class="diff-badge diff-bonus">Bonus</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── Scoring Model ── -->
+<section id="scoring">
+  <div class="container">
+    <div class="section-tag">Scoring Model</div>
+    <h2 class="section-title">Deterministic, weighted scoring</h2>
+    <p class="section-desc">
+      Each of the 12 standard levels is scored across 5 weighted fields. Level 13 is a bonus task with a deeper 10-field rubric. Maximum total score is 2.0.
+    </p>
+    <div class="scoring-grid">
+      <div class="scoring-card">
+        <h3>Standard Levels (1&ndash;12)</h3>
+        <div class="field-row"><span class="field-name">decoded_c2</span><span class="field-weight">40%</span></div>
+        <div class="field-row"><span class="field-name">techniques</span><span class="field-weight">30%</span></div>
+        <div class="field-row"><span class="field-name">file_type</span><span class="field-weight">10%</span></div>
+        <div class="field-row"><span class="field-name">encoded_strings</span><span class="field-weight">10%</span></div>
+        <div class="field-row"><span class="field-name">c2_protocol</span><span class="field-weight">10%</span></div>
+        <div class="penalty-note">Hallucination penalty: &minus;0.05 per fabricated technique</div>
+      </div>
+      <div class="scoring-card">
+        <h3>Bonus Level (13)</h3>
+        <div class="field-row"><span class="field-name">decoded_c2</span><span class="field-weight">15%</span></div>
+        <div class="field-row"><span class="field-name">encryption_algorithm</span><span class="field-weight">10%</span></div>
+        <div class="field-row"><span class="field-name">encryption_key</span><span class="field-weight">15%</span></div>
+        <div class="field-row"><span class="field-name">encryption_key_storage</span><span class="field-weight">5%</span></div>
+        <div class="field-row"><span class="field-name">techniques</span><span class="field-weight">15%</span></div>
+        <div class="field-row"><span class="field-name">decoded_strings</span><span class="field-weight">15%</span></div>
+        <div class="field-row"><span class="field-name">anti_analysis</span><span class="field-weight">10%</span></div>
+        <div class="field-row"><span class="field-name">file_type / encoded_strings / c2_protocol</span><span class="field-weight">10%</span></div>
+        <div class="penalty-note">Hallucination penalty: &minus;0.03 per fabricated technique</div>
+      </div>
+    </div>
+    <div class="formula-box">
+      <h3>Aggregate Score</h3>
+      <div class="formula">
+        <span>Main</span>  = average(level_1 &hellip; level_12)&emsp;&rarr;&emsp;0.0 &ndash; 1.0<br>
+        <span>Bonus</span> = level_13_score&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&rarr;&emsp;0.0 &ndash; 1.0<br>
+        <span>Total</span> = Main + Bonus&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&rarr;&emsp;<span>0.0 &ndash; 2.0</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Getting Started ── -->
+<section id="getting-started">
+  <div class="container">
+    <div class="section-tag">Getting Started</div>
+    <h2 class="section-title">Up and running in 4 steps</h2>
+    <p class="section-desc">
+      Zero Python dependencies. All LLM provider calls use Python's built-in urllib. Just bring an API key.
+    </p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Clone &amp; configure</h3>
+          <p>Clone the repo and add at least one provider API key.</p>
+          <code>git clone https://github.com/agentrebench/AgentRE-Bench.git
+cd AgentRE-Bench
+cp .env.example .env   # add your API key(s)</code>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Build binaries</h3>
+          <p>Compile the 13 ELF64 challenge binaries. Uses local gcc on Linux, Docker on macOS.</p>
+          <code>chmod +x build_binaries.sh
+./build_binaries.sh</code>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Build tools image</h3>
+          <p>Build the Docker image for sandboxed tool execution (network-isolated, read-only, memory-capped).</p>
+          <code>docker build --platform linux/amd64 \
+  -t agentre-bench-tools:latest \
+  -f Dockerfile.tools .</code>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h3>Run the benchmark</h3>
+          <p>Run a single task or the full 13-level suite. Supports Claude, GPT, Gemini, and DeepSeek.</p>
+          <code>python run_benchmark.py --task level1_TCPServer -v
+python run_benchmark.py --all --provider anthropic</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="https://github.com/agentrebench/AgentRE-Bench">GitHub</a>
+      <a href="https://github.com/agentrebench/AgentRE-Bench/blob/main/LICENSE">MIT License</a>
+      <a href="https://github.com/agentrebench/AgentRE-Bench/issues">Issues</a>
+    </div>
+    <p>AgentRE-Bench &mdash; LLM reverse engineering benchmark with deterministic scoring.</p>
+  </div>
+</footer>
+
+</body>
+</html>
