@@ -159,7 +159,6 @@ scorer.py                     Deterministic scorer (standalone + used by harness
 tasks.json                    Task manifest (13 entries)
 build_binaries.sh             Docker cross-compile script
 Dockerfile.tools              Sandboxed tool execution image
-Dockerfile.build              GCC compilation image
 ```
 
 **Zero Python dependencies.** All LLM provider calls use Python's built-in `urllib.request`. No SDKs required.
