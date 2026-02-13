@@ -1,0 +1,3 @@
+# AgentRE-Bench has zero Python dependencies.
+# All LLM provider calls use Python's built-in urllib.request (no SDKs).
+# This file exists for documentation purposes only.

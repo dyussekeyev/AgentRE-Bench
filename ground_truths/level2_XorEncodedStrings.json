@@ -1,0 +1,21 @@
+{
+  "sample": "level2_XorEncodedStrings",
+  "file_type": "ELF64",
+  "encoded_strings": true,
+  "decoded_c2": "192.168.1.100:4444",
+  "c2_ip": "192.168.1.100",
+  "c2_port": 4444,
+  "c2_protocol": "TCP",
+  "techniques": [
+    "xor_decode",
+    "socket_connect",
+    "dup2_redirect",
+    "execve_shell"
+  ],
+  "encryption_key": "0x22",
+  "encryption_type": "xor_single_byte",
+  "shell_path": "/bin/sh",
+  "confidence": 0.95,
+  "difficulty": 2,
+  "description": "TCP reverse shell with XOR-encoded strings. Host, port, and shell path are XOR'd with single-byte key 0x22. Decodes at runtime before connecting."
+}

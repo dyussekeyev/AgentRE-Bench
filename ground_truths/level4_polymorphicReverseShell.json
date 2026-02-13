@@ -1,0 +1,23 @@
+{
+  "sample": "level4_polymorphicReverseShell",
+  "file_type": "ELF64",
+  "encoded_strings": false,
+  "decoded_c2": null,
+  "c2_ip": null,
+  "c2_port": null,
+  "c2_protocol": "TCP",
+  "techniques": [
+    "polymorphic_shellcode",
+    "nop_sled",
+    "dynamic_memory_exec",
+    "socket_syscall"
+  ],
+  "shellcode_details": {
+    "nop_sled_size": "256-768 bytes (randomized)",
+    "syscall_number": 41,
+    "creates_socket": true
+  },
+  "confidence": 0.90,
+  "difficulty": 4,
+  "description": "Polymorphic shellcode generator. Creates randomized NOP sled (256-768 bytes) followed by x86-64 shellcode that makes a socket syscall. Shellcode is generated at runtime with random variation, allocated via malloc, and executed as a function pointer."
+}

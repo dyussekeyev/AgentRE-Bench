@@ -1,0 +1,14 @@
+FROM --platform=linux/amd64 ubuntu:22.04
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    binutils \
+    bsdmainutils \
+    file \
+    python3 \
+    xxd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user for sandboxed execution
+RUN useradd -m -s /bin/bash analyst
+USER analyst
+WORKDIR /workspace

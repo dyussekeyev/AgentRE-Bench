@@ -1,0 +1,18 @@
+{
+  "sample": "level1_TCPServer",
+  "file_type": "ELF64",
+  "encoded_strings": false,
+  "decoded_c2": "192.168.1.100:4444",
+  "c2_ip": "192.168.1.100",
+  "c2_port": 4444,
+  "c2_protocol": "TCP",
+  "techniques": [
+    "socket_connect",
+    "dup2_redirect",
+    "execve_shell"
+  ],
+  "shell_path": "/bin/sh",
+  "confidence": 0.99,
+  "difficulty": 1,
+  "description": "Basic TCP reverse shell. Plaintext C2 address, no obfuscation. Connects to C2, redirects stdin/stdout/stderr via dup2, executes /bin/sh."
+}

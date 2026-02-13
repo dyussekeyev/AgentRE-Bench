@@ -1,0 +1,26 @@
+{
+  "sample": "level11_ForkBombReverseShell",
+  "file_type": "ELF64",
+  "encoded_strings": false,
+  "decoded_c2": "192.168.1.100:4444",
+  "c2_ip": "192.168.1.100",
+  "c2_port": 4444,
+  "c2_protocol": "TCP",
+  "techniques": [
+    "fork_bomb",
+    "fork_exec",
+    "socket_connect",
+    "dup2_redirect",
+    "execve_shell",
+    "denial_of_service"
+  ],
+  "behavior": {
+    "parent_action": "fork_bomb (infinite fork loop)",
+    "child_action": "reverse_shell after 1 second sleep",
+    "dual_purpose": true
+  },
+  "shell_path": "/bin/sh",
+  "confidence": 0.95,
+  "difficulty": 11,
+  "description": "Dual-purpose malware combining fork bomb (DoS) with reverse shell. Parent process enters infinite fork loop as distraction/DoS. Child process sleeps 1 second then connects reverse shell to C2. Designed to overwhelm system while maintaining backdoor access."
+}

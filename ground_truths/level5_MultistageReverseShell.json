@@ -1,0 +1,25 @@
+{
+  "sample": "level5_MultistageReverseShell",
+  "file_type": "ELF64",
+  "encoded_strings": true,
+  "decoded_c2": "192.168.1.100:4444",
+  "c2_ip": "192.168.1.100",
+  "c2_port": 4444,
+  "c2_protocol": "TCP",
+  "techniques": [
+    "multistage_payload",
+    "xor_decode",
+    "shellcode_exec",
+    "socket_connect",
+    "recv_key"
+  ],
+  "encryption_type": "xor_single_byte",
+  "encryption_key": "received_from_c2",
+  "stages": {
+    "stage1": "TCP connect to C2, receive XOR key",
+    "stage2": "Decrypt embedded shellcode with received key, execute"
+  },
+  "confidence": 0.92,
+  "difficulty": 5,
+  "description": "Two-stage reverse shell. Stage 1 connects to C2 and receives a single-byte XOR key. Stage 2 decrypts embedded shellcode using that key and executes it via function pointer cast."
+}

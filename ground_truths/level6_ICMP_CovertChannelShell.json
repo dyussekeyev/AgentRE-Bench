@@ -1,0 +1,23 @@
+{
+  "sample": "level6_ICMP Covert Channel Shell",
+  "file_type": "ELF64",
+  "encoded_strings": false,
+  "decoded_c2": "192.168.1.100",
+  "c2_ip": "192.168.1.100",
+  "c2_port": null,
+  "c2_protocol": "ICMP",
+  "techniques": [
+    "icmp_covert_channel",
+    "raw_socket",
+    "crafted_icmp_packets",
+    "command_in_icmp_data"
+  ],
+  "covert_channel": {
+    "protocol": "ICMP",
+    "method": "commands embedded in ICMP echo data section",
+    "beacon_interval": 5
+  },
+  "confidence": 0.93,
+  "difficulty": 6,
+  "description": "Covert channel using ICMP echo requests. Creates raw socket, crafts ICMP packets with commands hidden in the data section (e.g., 'whoami'). Sends packets every 5 seconds. Uses custom checksum calculation."
+}

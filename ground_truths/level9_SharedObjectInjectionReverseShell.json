@@ -1,0 +1,29 @@
+{
+  "sample": "level9_SharedObjectInjectionReverseShell",
+  "file_type": "ELF64-SO",
+  "encoded_strings": false,
+  "decoded_c2": "192.168.1.100:4444",
+  "c2_ip": "192.168.1.100",
+  "c2_port": 4444,
+  "c2_protocol": "TCP",
+  "techniques": [
+    "shared_object_injection",
+    "constructor_attribute",
+    "function_hooking",
+    "dlsym_hijack",
+    "env_check",
+    "dup2_redirect",
+    "execve_shell"
+  ],
+  "injection_details": {
+    "library_type": "shared_object",
+    "activation": "__attribute__((constructor))",
+    "hooked_function": "puts",
+    "hijack_method": "dlsym(RTLD_NEXT)",
+    "env_evasion": ["LD_AUDIT", "LD_PRELOAD"]
+  },
+  "shell_path": "/bin/sh",
+  "confidence": 0.94,
+  "difficulty": 9,
+  "description": "Shared object (.so) with constructor-triggered reverse shell. Hijacks puts() via dlsym(RTLD_NEXT) to trigger shell on any puts() call. Checks for LD_AUDIT and LD_PRELOAD to evade analysis. Intended for LD_PRELOAD injection."
+}

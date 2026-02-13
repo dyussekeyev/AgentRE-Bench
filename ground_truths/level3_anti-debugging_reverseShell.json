@@ -1,0 +1,28 @@
+{
+  "sample": "level3_anti-debugging_reverseShell",
+  "file_type": "ELF64",
+  "encoded_strings": false,
+  "decoded_c2": "192.168.1.100:4444",
+  "c2_ip": "192.168.1.100",
+  "c2_port": 4444,
+  "c2_protocol": "TCP",
+  "techniques": [
+    "ptrace_anti_debug",
+    "env_check",
+    "delay_execution",
+    "fork_background",
+    "socket_connect",
+    "dup2_redirect",
+    "execve_shell"
+  ],
+  "anti_analysis": [
+    "ptrace_traceme",
+    "ld_preload_check",
+    "ld_library_path_check",
+    "random_delay_30_90s"
+  ],
+  "shell_path": "/bin/sh",
+  "confidence": 0.95,
+  "difficulty": 3,
+  "description": "Reverse shell with anti-debugging measures. Detects ptrace, checks LD_PRELOAD/LD_LIBRARY_PATH, delays execution 30-90 seconds, forks to background before connecting."
+}

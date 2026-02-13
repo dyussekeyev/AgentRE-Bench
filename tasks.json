@@ -1,0 +1,95 @@
+{
+  "tasks": [
+    {
+      "task_id": "level1_TCPServer",
+      "source_file": "samples/level1_TCPServer.c",
+      "binary_name": "level1_TCPServer",
+      "ground_truth": "ground_truths/level1_TCPServer.json",
+      "difficulty": 1
+    },
+    {
+      "task_id": "level2_XorEncodedStrings",
+      "source_file": "samples/level2_XorEncodedStrings.c",
+      "binary_name": "level2_XorEncodedStrings",
+      "ground_truth": "ground_truths/level2_XorEncodedStrings.json",
+      "difficulty": 2
+    },
+    {
+      "task_id": "level3_anti-debugging_reverseShell",
+      "source_file": "samples/level3_anti-debugging_reverseShell.c",
+      "binary_name": "level3_anti-debugging_reverseShell",
+      "ground_truth": "ground_truths/level3_anti-debugging_reverseShell.json",
+      "difficulty": 3
+    },
+    {
+      "task_id": "level4_polymorphicReverseShell",
+      "source_file": "samples/level4_polymorphicReverseShell.c",
+      "binary_name": "level4_polymorphicReverseShell",
+      "ground_truth": "ground_truths/level4_polymorphicReverseShell.json",
+      "difficulty": 4
+    },
+    {
+      "task_id": "level5_MultistageReverseShell",
+      "source_file": "samples/level5_MultistageReverseShell.c",
+      "binary_name": "level5_MultistageReverseShell",
+      "ground_truth": "ground_truths/level5_MultistageReverseShell.json",
+      "difficulty": 5
+    },
+    {
+      "task_id": "level6_ICMP_CovertChannelShell",
+      "source_file": "samples/level6_ICMP Covert Channel Shell.c",
+      "binary_name": "level6_ICMP_CovertChannelShell",
+      "ground_truth": "ground_truths/level6_ICMP_CovertChannelShell.json",
+      "difficulty": 6
+    },
+    {
+      "task_id": "level7_DNS_TunnelReverseShell",
+      "source_file": "samples/level7_DNS_TunnelReverse Shell.c",
+      "binary_name": "level7_DNS_TunnelReverseShell",
+      "ground_truth": "ground_truths/level7_DNS_TunnelReverseShell.json",
+      "difficulty": 7
+    },
+    {
+      "task_id": "level8_Process_hollowing_reverse_shell",
+      "source_file": "samples/level8_Process_hollowing_reverse_shell.c",
+      "binary_name": "level8_Process_hollowing_reverse_shell",
+      "ground_truth": "ground_truths/level8_Process_hollowing_reverse_shell.json",
+      "difficulty": 8
+    },
+    {
+      "task_id": "level9_SharedObjectInjectionReverseShell",
+      "source_file": "samples/level9_SharedObjectInjectionReverseShell.c",
+      "binary_name": "level9_SharedObjectInjectionReverseShell",
+      "ground_truth": "ground_truths/level9_SharedObjectInjectionReverseShell.json",
+      "difficulty": 9
+    },
+    {
+      "task_id": "level10_fully_obfuscated_AES_Encrypted_Shell",
+      "source_file": "samples/level10_fully_obfuscated_AES_Encrypted Shell.c",
+      "binary_name": "level10_fully_obfuscated_AES_Encrypted_Shell",
+      "ground_truth": "ground_truths/level10_fully_obfuscated_AES_Encrypted_Shell.json",
+      "difficulty": 10
+    },
+    {
+      "task_id": "level11_ForkBombReverseShell",
+      "source_file": "samples/level11_ForkBombReverseShell.c",
+      "binary_name": "level11_ForkBombReverseShell",
+      "ground_truth": "ground_truths/level11_ForkBombReverseShell.json",
+      "difficulty": 11
+    },
+    {
+      "task_id": "level12_JIT_Compiled_Shellcode",
+      "source_file": "samples/level12_JIT_Compiled_Shellcode.c",
+      "binary_name": "level12_JIT_Compiled_Shellcode",
+      "ground_truth": "ground_truths/level12_JIT_Compiled_Shellcode.json",
+      "difficulty": 12
+    },
+    {
+      "task_id": "level13_MetamorphicDropper",
+      "source_file": "samples/level13_MetamorphicDropper.c",
+      "binary_name": "level13_MetamorphicDropper",
+      "ground_truth": "ground_truths/level13_MetamorphicDropper.json",
+      "difficulty": 13
+    }
+  ]
+}

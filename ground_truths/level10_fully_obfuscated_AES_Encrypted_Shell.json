@@ -1,0 +1,36 @@
+{
+  "sample": "level10_fully_obfuscated_AES_Encrypted Shell",
+  "file_type": "ELF64",
+  "encoded_strings": true,
+  "decoded_c2": null,
+  "c2_ip": null,
+  "c2_port": null,
+  "c2_protocol": "TCP",
+  "techniques": [
+    "xor_encrypt",
+    "anti_analysis",
+    "inline_asm_syscall",
+    "mmap_exec",
+    "env_check",
+    "runtime_decrypt"
+  ],
+  "encryption_details": {
+    "claimed_type": "AES",
+    "actual_type": "xor_multi_byte",
+    "key": "deadbeefcafebabe deadbeefcafebabe",
+    "key_hex": "0xdeadbeefcafebabedeadbeefcafebabe",
+    "key_length": 16
+  },
+  "anti_analysis": [
+    "STRACE_env_check",
+    "LT_TRACE_env_check"
+  ],
+  "obfuscation": {
+    "inline_assembly": true,
+    "manual_syscalls": true,
+    "mmap_rwx": true
+  },
+  "confidence": 0.88,
+  "difficulty": 10,
+  "description": "Heavily obfuscated shell with encrypted payload. Claims AES but actually uses 16-byte XOR key (0xdeadbeefcafebabe repeated). Anti-analysis via env var checks. Uses inline assembly for direct syscalls to avoid import table detection. Decrypts shellcode at runtime into mmap'd RWX memory."
+}

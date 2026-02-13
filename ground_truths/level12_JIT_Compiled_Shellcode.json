@@ -1,0 +1,32 @@
+{
+  "sample": "level12_JIT_Compiled_Shellcode",
+  "file_type": "ELF64",
+  "encoded_strings": false,
+  "decoded_c2": "192.168.1.100:4444",
+  "c2_ip": "192.168.1.100",
+  "c2_port": 4444,
+  "c2_protocol": "TCP",
+  "techniques": [
+    "jit_compilation",
+    "mmap_exec",
+    "self_modifying_code",
+    "runtime_patching",
+    "socket_connect",
+    "dup2_redirect",
+    "execve_shell"
+  ],
+  "jit_details": {
+    "memory_allocation": "mmap RWX",
+    "shellcode_template": "x86-64 socket creation syscall",
+    "runtime_patches": {
+      "ip_offset": "0x30",
+      "port_offset": "0x34",
+      "patched_ip": "192.168.1.100 (\\xc0\\xa8\\x01\\x64)",
+      "patched_port": "4444 (\\x11\\x5c)"
+    }
+  },
+  "shell_path": "/bin/sh",
+  "confidence": 0.93,
+  "difficulty": 12,
+  "description": "JIT-style shellcode execution. Allocates RWX memory via mmap, copies shellcode template, then patches IP and port bytes at specific offsets at runtime. Executes the JIT'd code to create a socket, then connects and spawns a shell. Self-modifying code makes static analysis difficult."
+}

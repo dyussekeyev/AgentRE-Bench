@@ -1,0 +1,31 @@
+{
+  "sample": "level8_Process_hollowing_reverse_shell",
+  "file_type": "ELF64",
+  "encoded_strings": true,
+  "decoded_c2": "127.0.0.1:4444",
+  "c2_ip": "127.0.0.1",
+  "c2_port": 4444,
+  "c2_protocol": "TCP",
+  "techniques": [
+    "process_hollowing",
+    "ptrace_inject",
+    "fork_exec",
+    "shellcode_injection",
+    "register_manipulation"
+  ],
+  "process_hollowing_details": {
+    "target_process": "/bin/sleep",
+    "injection_method": "PTRACE_POKETEXT",
+    "register_control": "PTRACE_GETREGS/PTRACE_SETREGS",
+    "detach_after_inject": true
+  },
+  "shellcode_c2": {
+    "ip_bytes": "\\x7f\\x00\\x00\\x01",
+    "port_bytes": "\\x11\\x5c",
+    "decoded_ip": "127.0.0.1",
+    "decoded_port": 4444
+  },
+  "confidence": 0.92,
+  "difficulty": 8,
+  "description": "Process hollowing via ptrace. Forks a child running /bin/sleep, then uses PTRACE_POKETEXT to overwrite its code with reverse shell shellcode. Modifies RIP register and detaches. Shellcode contains embedded C2 at 127.0.0.1:4444."
+}
