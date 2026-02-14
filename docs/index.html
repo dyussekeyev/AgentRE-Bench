@@ -302,6 +302,108 @@ tbody tr:hover { background: var(--surface-alt); }
 }
 .formula span { color: var(--accent); }
 
+/* ── Results ── */
+.leaderboard { margin-bottom: 40px; }
+.lb-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 60px;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.lb-row:last-child { border-bottom: none; }
+.lb-model {
+  font-weight: 600;
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+.lb-bar-track {
+  height: 28px;
+  background: var(--surface-alt);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.lb-bar {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.6s ease;
+}
+.lb-score {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-align: right;
+}
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+@media (max-width: 700px) { .results-grid { grid-template-columns: 1fr; } }
+.results-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+.results-card h3 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.84rem;
+  border-bottom: 1px solid var(--border);
+}
+.stat-row:last-child { border-bottom: none; }
+.stat-label { color: var(--text-dim); }
+.stat-val { font-family: var(--mono); font-weight: 600; }
+.heatmap-wrap { overflow-x: auto; }
+.heatmap {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.heatmap th {
+  padding: 10px 8px;
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  white-space: nowrap;
+}
+.heatmap th:first-child { text-align: left; }
+.heatmap td {
+  padding: 8px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+.heatmap td:first-child {
+  text-align: left;
+  font-family: var(--font);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.heatmap tbody tr:last-child td { border-bottom: none; }
+.heatmap tbody tr:hover { background: var(--surface-alt); }
+.h-0   { color: #666; }
+.h-low { color: var(--red); }
+.h-med { color: var(--yellow); }
+.h-hi  { color: var(--green); }
+.h-max { color: var(--accent); }
+
 /* ── Getting Started ── */
 .steps {
   display: grid;
@@ -391,7 +493,7 @@ footer a:hover { color: var(--accent); }
         <svg class="gh-icon" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         View on GitHub
       </a>
-      <a href="#getting-started" class="btn btn-outline">Get Started</a>
+      <a href="#results" class="btn btn-outline">Results</a>
     </div>
   </div>
 </section>
@@ -571,6 +673,111 @@ footer a:hover { color: var(--accent); }
         <span>Bonus</span> = level_13_score&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&rarr;&emsp;0.0 &ndash; 1.0<br>
         <span>Total</span> = Main + Bonus&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&rarr;&emsp;<span>0.0 &ndash; 2.0</span>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Results ── -->
+<section id="results">
+  <div class="container">
+    <div class="section-tag">Results</div>
+    <h2 class="section-title">How frontier models perform</h2>
+    <p class="section-desc">
+      All 13 levels, 25 tool-call budget, static analysis only. Gemini results coming soon.
+    </p>
+
+    <!-- Leaderboard -->
+    <div class="leaderboard">
+      <div class="lb-row">
+        <div class="lb-model" style="color: var(--accent);">Claude Opus 4.6</div>
+        <div class="lb-bar-track"><div class="lb-bar" style="width: 68.5%; background: var(--accent);"></div></div>
+        <div class="lb-score" style="color: var(--accent);">0.685</div>
+      </div>
+      <div class="lb-row">
+        <div class="lb-model" style="color: var(--yellow);">DeepSeek V3.2</div>
+        <div class="lb-bar-track"><div class="lb-bar" style="width: 47.6%; background: var(--yellow);"></div></div>
+        <div class="lb-score" style="color: var(--yellow);">0.476</div>
+      </div>
+      <div class="lb-row">
+        <div class="lb-model" style="color: var(--indigo);">GPT-5.2</div>
+        <div class="lb-bar-track"><div class="lb-bar" style="width: 19.1%; background: var(--indigo);"></div></div>
+        <div class="lb-score" style="color: var(--indigo);">0.191</div>
+      </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="results-grid">
+      <div class="results-card">
+        <h3>Aggregate Scores (out of 2.0)</h3>
+        <div class="stat-row"><span class="stat-label">Claude Opus 4.6</span><span class="stat-val" style="color:var(--accent);">0.685</span></div>
+        <div class="stat-row"><span class="stat-label">&nbsp;&nbsp;Main (L1&ndash;12)</span><span class="stat-val">0.503</span></div>
+        <div class="stat-row"><span class="stat-label">&nbsp;&nbsp;Bonus (L13)</span><span class="stat-val">0.182</span></div>
+        <div class="stat-row"><span class="stat-label">DeepSeek V3.2</span><span class="stat-val" style="color:var(--yellow);">0.476</span></div>
+        <div class="stat-row"><span class="stat-label">&nbsp;&nbsp;Main (L1&ndash;12)</span><span class="stat-val">0.476</span></div>
+        <div class="stat-row"><span class="stat-label">&nbsp;&nbsp;Bonus (L13)</span><span class="stat-val">0.000</span></div>
+        <div class="stat-row"><span class="stat-label">GPT-5.2</span><span class="stat-val" style="color:var(--indigo);">0.191</span></div>
+        <div class="stat-row"><span class="stat-label">&nbsp;&nbsp;Main (L1&ndash;12)</span><span class="stat-val">0.191</span></div>
+        <div class="stat-row"><span class="stat-label">&nbsp;&nbsp;Bonus (L13)</span><span class="stat-val">0.000</span></div>
+      </div>
+      <div class="results-card">
+        <h3>Efficiency &amp; Cost</h3>
+        <div class="stat-row"><span class="stat-label">Claude &mdash; wall time</span><span class="stat-val">939.7s</span></div>
+        <div class="stat-row"><span class="stat-label">Claude &mdash; tokens</span><span class="stat-val">7.99M</span></div>
+        <div class="stat-row"><span class="stat-label">Claude &mdash; avg calls/task</span><span class="stat-val">12.5</span></div>
+        <div class="stat-row"><span class="stat-label">DeepSeek &mdash; wall time</span><span class="stat-val">1607.6s</span></div>
+        <div class="stat-row"><span class="stat-label">DeepSeek &mdash; tokens</span><span class="stat-val">9.92M</span></div>
+        <div class="stat-row"><span class="stat-label">DeepSeek &mdash; avg calls/task</span><span class="stat-val">12.9</span></div>
+        <div class="stat-row"><span class="stat-label">GPT-5.2 &mdash; wall time</span><span class="stat-val">156.2s</span></div>
+        <div class="stat-row"><span class="stat-label">GPT-5.2 &mdash; tokens</span><span class="stat-val">2.58M</span></div>
+        <div class="stat-row"><span class="stat-label">GPT-5.2 &mdash; avg calls/task</span><span class="stat-val">9.4</span></div>
+      </div>
+    </div>
+
+    <!-- Hallucination & Success -->
+    <div class="results-grid">
+      <div class="results-card">
+        <h3>Success Rate</h3>
+        <div class="stat-row"><span class="stat-label">Claude Opus 4.6</span><span class="stat-val" style="color:var(--accent);">92.3%</span></div>
+        <div class="stat-row"><span class="stat-label">GPT-5.2</span><span class="stat-val" style="color:var(--indigo);">100%</span></div>
+        <div class="stat-row"><span class="stat-label">DeepSeek V3.2</span><span class="stat-val" style="color:var(--yellow);">61.5%</span></div>
+      </div>
+      <div class="results-card">
+        <h3>Avg Hallucinated Techniques / Task</h3>
+        <div class="stat-row"><span class="stat-label">Claude Opus 4.6</span><span class="stat-val">3.69</span></div>
+        <div class="stat-row"><span class="stat-label">GPT-5.2</span><span class="stat-val" style="color:var(--red);">6.08</span></div>
+        <div class="stat-row"><span class="stat-label">DeepSeek V3.2</span><span class="stat-val" style="color:var(--green);">1.77</span></div>
+      </div>
+    </div>
+
+    <!-- Per-Level Heatmap -->
+    <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 16px;">Per-Level Score Breakdown</h3>
+    <div class="table-wrap heatmap-wrap">
+      <table class="heatmap">
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Task</th>
+            <th>Claude</th>
+            <th>GPT-5.2</th>
+            <th>DeepSeek</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>TCP Reverse Shell</td><td class="h-max">1.00</td><td class="h-med">0.55</td><td class="h-hi">0.80</td></tr>
+          <tr><td>2</td><td>XOR Encoded</td><td class="h-hi">0.75</td><td class="h-low">0.03</td><td class="h-med">0.59</td></tr>
+          <tr><td>3</td><td>Anti-Debug</td><td class="h-med">0.55</td><td class="h-low">0.24</td><td class="h-med">0.48</td></tr>
+          <tr><td>4</td><td>Polymorphic</td><td class="h-med">0.40</td><td class="h-0">0.00</td><td class="h-med">0.40</td></tr>
+          <tr><td>5</td><td>Multistage</td><td class="h-med">0.53</td><td class="h-low">0.33</td><td class="h-hi">0.75</td></tr>
+          <tr><td>6</td><td>ICMP Covert</td><td class="h-med">0.48</td><td class="h-0">0.00</td><td class="h-med">0.54</td></tr>
+          <tr><td>7</td><td>DNS Tunnel</td><td class="h-low">0.01</td><td class="h-0">0.00</td><td class="h-0">0.00</td></tr>
+          <tr><td>8</td><td>Process Hollow</td><td class="h-med">0.56</td><td class="h-low">0.15</td><td class="h-0">0.00</td></tr>
+          <tr><td>9</td><td>SO Injection</td><td class="h-low">0.35</td><td class="h-low">0.15</td><td class="h-low">0.38</td></tr>
+          <tr><td>10</td><td>AES Encrypted</td><td class="h-0">0.00</td><td class="h-0">0.00</td><td class="h-med">0.40</td></tr>
+          <tr><td>11</td><td>Fork Bomb</td><td class="h-hi">0.82</td><td class="h-med">0.49</td><td class="h-med">0.62</td></tr>
+          <tr><td>12</td><td>JIT Shellcode</td><td class="h-med">0.58</td><td class="h-low">0.35</td><td class="h-hi">0.76</td></tr>
+          <tr><td>13</td><td>Metamorphic <span class="diff-badge diff-bonus" style="font-size:0.65rem;padding:1px 6px;">Bonus</span></td><td class="h-low">0.18</td><td class="h-0">0.00</td><td class="h-0">0.00</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
