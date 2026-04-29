@@ -259,6 +259,8 @@ python run_benchmark.py --all --report results/opus_run1/
 | `--provider` | `anthropic` | `anthropic`, `openai`, `gemini`, `deepseek` |
 | `--model` | per-provider | Model name |
 | `--api-key` | from .env | API key override |
+| `--api-url` | per-provider | Base URL for the provider API |
+| `--user-agent` | | Custom User-Agent header for API requests |
 | `--report DIR` | `results/` | Output directory |
 | `--max-tool-calls` | `25` | Tool call budget per task |
 | `--max-tokens` | `4096` | Max tokens per LLM response |
