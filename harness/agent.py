@@ -159,6 +159,7 @@ class AgentLoop:
                     tool_results.append({
                         "type": "tool_result",
                         "tool_use_id": tc.id,
+                        "tool_name": tc.name,
                         "content": output_text,
                     })
 

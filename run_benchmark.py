@@ -127,7 +127,7 @@ def main():
         provider=args.provider,
         api_key=args.api_key,
         api_url=args.api_url,
-        user_agent=args.useragent,
+        user_agent=args.user_agent,
         max_tool_calls=args.max_tool_calls,
         max_tokens=args.max_tokens,
         use_docker=not args.no_docker,
