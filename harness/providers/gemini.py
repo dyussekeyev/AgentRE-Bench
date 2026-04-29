@@ -13,9 +13,11 @@ API_URL = "https://generativelanguage.googleapis.com/v1beta/models"
 
 
 class GeminiProvider(AgentProvider):
-    def __init__(self, api_key: str, model: str):
+    def __init__(self, api_key: str, model: str, api_url: str | None = None, user_agent: str | None = None):
         self.api_key = api_key
         self.model = model
+        self.api_url = (api_url or API_URL).rstrip("/")
+        self.user_agent = user_agent
 
     def create_message(
         self,
@@ -33,8 +35,10 @@ class GeminiProvider(AgentProvider):
             "generationConfig": {"maxOutputTokens": max_tokens},
         }
 
-        url = f"{API_URL}/{self.model}:generateContent?key={self.api_key}"
+        url = f"{self.api_url}/{self.model}:generateContent?key={self.api_key}"
         headers = {"Content-Type": "application/json"}
+        if self.user_agent:
+            headers["User-Agent"] = self.user_agent
         data = json.dumps(body).encode("utf-8")
         req = urllib.request.Request(url, data=data, headers=headers, method="POST")
 

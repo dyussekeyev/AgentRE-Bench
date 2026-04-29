@@ -63,6 +63,18 @@ def main():
         help="API key override (normally loaded from .env or environment)",
     )
     parser.add_argument(
+        "--api-url",
+        type=str,
+        default=None,
+        help="Base URL for the provider API",
+    )
+    parser.add_argument(
+        "--useragent",
+        type=str,
+        default=None,
+        help="Custom User-Agent header for API requests",
+    )
+    parser.add_argument(
         "--report",
         type=str,
         default=None,
@@ -114,6 +126,8 @@ def main():
         model=model,
         provider=args.provider,
         api_key=args.api_key,
+        api_url=args.api_url,
+        user_agent=args.useragent,
         max_tool_calls=args.max_tool_calls,
         max_tokens=args.max_tokens,
         use_docker=not args.no_docker,

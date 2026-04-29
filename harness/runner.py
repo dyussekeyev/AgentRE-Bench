@@ -105,7 +105,7 @@ def run_single_task(
 
     # Create provider
     api_key = config.resolve_api_key()
-    provider = create_provider(config.provider, config.model, api_key)
+    provider = create_provider(config.provider, config.model, api_key, config.api_url, config.user_agent)
 
     # Build system prompt
     system_prompt = build_system_prompt(task, config)

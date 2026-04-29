@@ -9,14 +9,15 @@ from ..tools import schemas_to_openai
 
 log = logging.getLogger(__name__)
 
-DEFAULT_BASE_URL = "https://api.openai.com/v1"
+API_URL = "https://api.openai.com/v1"
 
 
 class OpenAIProvider(AgentProvider):
-    def __init__(self, api_key: str, model: str, base_url: str | None = None):
+    def __init__(self, api_key: str, model: str, api_url: str | None = None, user_agent: str | None = None):
         self.api_key = api_key
         self.model = model
-        self.base_url = (base_url or DEFAULT_BASE_URL).rstrip("/")
+        self.api_url = (api_url or API_URL).rstrip("/")
+        self.user_agent = user_agent
 
     def _token_param(self) -> str:
         """Parameter name for max output tokens. Override for API compatibility."""
@@ -46,9 +47,11 @@ class OpenAIProvider(AgentProvider):
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}",
         }
+        if self.user_agent:
+            headers["User-Agent"] = self.user_agent
 
         data = json.dumps(body).encode("utf-8")
-        url = f"{self.base_url}/chat/completions"
+        url = f"{self.api_url}/chat/completions"
         req = urllib.request.Request(url, data=data, headers=headers, method="POST")
 
         with urllib.request.urlopen(req, timeout=300) as resp:

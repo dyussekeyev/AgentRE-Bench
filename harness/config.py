@@ -48,6 +48,8 @@ class BenchmarkConfig:
     model: str = "claude-opus-4-6"
     provider: str = "anthropic"
     api_key: str = ""
+    api_url: str | None = None
+    user_agent: str | None = None
 
     max_tool_calls: int = 25
     tool_timeout_seconds: int = 30

@@ -14,9 +14,11 @@ API_VERSION = "2023-06-01"
 
 
 class AnthropicProvider(AgentProvider):
-    def __init__(self, api_key: str, model: str):
+    def __init__(self, api_key: str, model: str, api_url: str | None = None, user_agent: str | None = None):
         self.api_key = api_key
         self.model = model
+        self.api_url = api_url or API_URL
+        self.user_agent = user_agent
 
     def create_message(
         self,
@@ -38,9 +40,11 @@ class AnthropicProvider(AgentProvider):
             "x-api-key": self.api_key,
             "anthropic-version": API_VERSION,
         }
+        if self.user_agent:
+            headers["User-Agent"] = self.user_agent
 
         data = json.dumps(body).encode("utf-8")
-        req = urllib.request.Request(API_URL, data=data, headers=headers, method="POST")
+        req = urllib.request.Request(self.api_url, data=data, headers=headers, method="POST")
 
         try:
             with urllib.request.urlopen(req, timeout=300) as resp:

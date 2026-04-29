@@ -22,6 +22,10 @@ class ProviderResponse:
 
 
 class AgentProvider(ABC):
+    """
+    Abstract base class for LLM providers.
+    Subclasses should implement __init__(self, api_key: str, model: str, api_url: str | None = None, user_agent: str | None = None)
+    """
     @abstractmethod
     def create_message(
         self,
