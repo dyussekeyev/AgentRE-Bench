@@ -69,7 +69,7 @@ def main():
         help="Base URL for the provider API",
     )
     parser.add_argument(
-        "--useragent",
+        "--user-agent",
         type=str,
         default=None,
         help="Custom User-Agent header for API requests",
