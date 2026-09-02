@@ -214,9 +214,9 @@ h2 { max-width: 830px; margin-bottom: 0; font-size: clamp(2.65rem, 5vw, 4.65rem)
 .evolution-section { background: var(--surface); }
 .evolution-intro { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, .75fr); gap: 90px; align-items: end; }
 .evolution-intro > p { max-width: 520px; margin-bottom: 5px; color: var(--text-soft); line-height: 1.72; }
-.timeline { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 78px; }
+.timeline { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(7, auto); column-gap: 18px; row-gap: 0; margin-top: 78px; }
 .timeline::before { content: ""; position: absolute; z-index: 0; top: -31px; left: 16.666%; right: 16.666%; height: 1px; background: linear-gradient(90deg, var(--line-strong), var(--accent-line)); }
-.version-card { position: relative; z-index: 1; min-height: 690px; display: flex; flex-direction: column; padding: 27px; border: 1px solid var(--line); background: var(--bg); }
+.version-card { position: relative; z-index: 1; grid-row: span 7; min-height: 690px; display: grid; grid-template-rows: subgrid; padding: 27px; border: 1px solid var(--line); background: var(--bg); }
 .version-card::before { content: ""; position: absolute; top: -37px; left: 50%; width: 11px; height: 11px; border: 2px solid var(--surface); border-radius: 50%; background: var(--text-faint); transform: translateX(-50%); }
 .version-card-current { border-color: var(--accent-line); background: linear-gradient(180deg, var(--accent-soft), var(--bg) 26%); }
 .version-card-current::before { background: var(--accent-bright); box-shadow: 0 0 0 5px var(--accent-soft); }
@@ -338,9 +338,9 @@ h2 { max-width: 830px; margin-bottom: 0; font-size: clamp(2.65rem, 5vw, 4.65rem)
   .two-column-intro { grid-template-columns: 1fr; gap: 42px; }
   .method-layout, .findings-layout, .proof-layout { grid-template-columns: 1fr; gap: 60px; }
   .evolution-intro { grid-template-columns: 1fr; gap: 36px; }
-  .timeline { grid-template-columns: 1fr; gap: 18px; }
+  .timeline { grid-template-columns: 1fr; grid-template-rows: none; gap: 18px; }
   .timeline::before { top: 0; bottom: 0; left: 9px; right: auto; width: 1px; height: auto; }
-  .version-card { min-height: 0; margin-left: 30px; }
+  .version-card { grid-row: auto; min-height: 0; display: flex; flex-direction: column; margin-left: 30px; }
   .version-card::before { top: 34px; left: -31px; }
   .version-copy { min-height: 0; }
   .offering-grid { grid-template-columns: 1fr; }
