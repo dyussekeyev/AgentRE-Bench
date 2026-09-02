@@ -372,6 +372,22 @@ html[data-theme="light"] .model-detail-card {
   gap: 0;
 }
 
+.handbook-content .section-desc + .feature-grid,
+.handbook-content .section-kicker + .feature-grid,
+.handbook-content .section-desc + .cta-band,
+.handbook-content .section-kicker + .cta-band {
+  margin-top: 52px;
+}
+
+.handbook-content .card > .badge + h3,
+.handbook-content .card > .status-pill + h3 {
+  margin-top: 14px;
+}
+
+.handbook-content .cta-band h3 {
+  margin-bottom: 12px;
+}
+
 .card,
 .mention-card,
 .offer-card,

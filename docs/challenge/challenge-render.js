@@ -413,7 +413,7 @@
     if (!themeToggle) return;
 
     const themeStorageKey = "agentre-theme-v2";
-    const savedTheme = localStorage.getItem(themeStorageKey) || "light";
+    const savedTheme = localStorage.getItem(themeStorageKey) || "dark";
     document.documentElement.dataset.theme = savedTheme;
     themeToggle.textContent = savedTheme === "dark" ? "Light" : "Dark";
 

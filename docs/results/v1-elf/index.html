@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgentRE Version 1 — Linux ELF benchmark archive</title>
+  <meta name="description" content="AgentRE Version 1 established a deterministic baseline for source-free Linux ELF reverse engineering across three frontier models.">
+  <meta property="og:title" content="AgentRE Version 1 — Establishing the baseline">
+  <meta property="og:description" content="The archived first AgentRE result: 13 Linux ELF tasks, three models, constrained tools, and deterministic scoring.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.agentre-bench.ai/results/v1-elf/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/home.css?v=story-1">
+  <link rel="stylesheet" href="/version-report.css?v=story-1">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell nav-shell">
+      <a class="brand" href="/" aria-label="AgentRE-Bench home"><img src="/logo.svg" alt="" width="32" height="32"><span>Agent<span>RE</span>-Bench</span></a>
+      <nav class="desktop-nav" aria-label="Primary navigation"><a href="/#why">Why AgentRE</a><a href="/#how">How it works</a><a href="/#evolution">Evolution</a><a href="/results/v3-pe/">Latest research</a><a href="/challenge/">Challenge</a></nav>
+      <div class="nav-actions"><button class="theme-toggle" type="button" aria-label="Switch to light theme"><span class="theme-dot" aria-hidden="true"></span><span class="theme-label">Light</span></button><a class="nav-cta" href="mailto:contact@agentrebench.ai?subject=AgentRE%20evaluation%20inquiry">Evaluate your agent <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </header>
+
+  <main class="report-main" id="main">
+    <section class="report-hero">
+      <div class="shell">
+        <div class="breadcrumb"><a href="/">AgentRE-Bench</a><span>/</span><a href="/#evolution">Benchmark evolution</a><span>/</span><span>Version 1</span></div>
+        <div class="report-hero-layout">
+          <div><p class="report-version">Version 1 · Linux ELF · February 13, 2026</p><h1>The baseline: binary reasoning becomes measurable.</h1><p class="report-lede">The first AgentRE-Bench run asked three frontier models to investigate 13 synthetic Linux binaries with no source code, a 25-call tool budget, and deterministic scoring.</p></div>
+          <aside class="report-status" aria-label="Version 1 publication status">
+            <div class="report-status-row"><span>Publication</span><strong>Archived result</strong></div>
+            <div class="report-status-row"><span>Source snapshot</span><strong>fc56961</strong></div>
+            <div class="report-status-row"><span>Verification status</span><strong class="archive">Published, not replay-audited</strong></div>
+          </aside>
+        </div>
+        <div class="report-stats"><div><strong>13</strong><span>Linux ELF tasks</span></div><div><strong>3</strong><span>models reported</span></div><div><strong>25</strong><span>tool calls per task</span></div><div><strong>0</strong><span>bonus scores above zero</span></div></div>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <div class="shell">
+        <div class="report-section-head"><div><p class="eyebrow"><span>01</span> Published results</p><h2>A wide gap appeared immediately.</h2></div><p>Claude Opus 4.6 led the first suite. DeepSeek V3.2 was close on score while making fewer unsupported technique claims. GPT-5.2 completed every task but paid the largest hallucination penalty.</p></div>
+        <div class="archive-note"><strong>Archive note</strong><span>These values are preserved from the final V1 homepage snapshot. The current repository does not retain V1 raw reports or transcripts, so this page does not describe the result as independently replay-verified.</span></div>
+        <div class="report-chart" aria-label="V1 Main score leaderboard">
+          <div class="report-chart-head"><span>Main score leaderboard</span><span>Score · submissions · unsupported claims/task</span></div>
+          <div class="report-bar-row"><div class="report-model"><strong>Claude Opus 4.6</strong><small>11/13 · 3.31 claims/task</small></div><div class="report-track"><span style="--value:48.7%"></span></div><strong class="report-score">0.487</strong></div>
+          <div class="report-bar-row"><div class="report-model"><strong>DeepSeek V3.2</strong><small>8/13 · 1.77 claims/task</small></div><div class="report-track"><span style="--value:47.6%"></span></div><strong class="report-score">0.476</strong></div>
+          <div class="report-bar-row"><div class="report-model"><strong>GPT-5.2</strong><small>13/13 · 6.23 claims/task</small></div><div class="report-track"><span style="--value:19%"></span></div><strong class="report-score">0.190</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-section alt">
+      <div class="shell">
+        <div class="report-section-head"><div><p class="eyebrow"><span>02</span> What V1 taught us</p><h2>Answering every task did not mean understanding every task.</h2></div><p>The first benchmark established the core trust problem AgentRE continues to measure: coverage, correctness, and calibration are different dimensions of capability.</p></div>
+        <div class="report-grid">
+          <article class="report-card"><span>Coverage</span><h3>Completion can hide weak evidence</h3><p>GPT submitted 13 of 13 answers, yet its final score was lowest and it averaged the most unsupported technique claims.</p></article>
+          <article class="report-card"><span>Calibration</span><h3>Restraint became measurable</h3><p>The scorer's false-claim penalty separated agents that recovered defensible facts from those that produced broader, plausible reports.</p></article>
+          <article class="report-card"><span>Frontier</span><h3>The hardest reconstruction failed universally</h3><p>All three models scored zero on Level 13, the encrypted metamorphic bonus task. Exact recovery—not recognition—was already the wall.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <div class="shell">
+        <div class="report-section-head"><div><p class="eyebrow"><span>03</span> Evaluation design</p><h2>A controlled test of long-horizon tool use.</h2></div><p>Purpose-built binaries kept ground truth known and scoring repeatable while the task sequence moved from plaintext behavior toward encryption, obfuscation, and anti-analysis.</p></div>
+        <div class="method-facts"><div><span>Input</span><strong>An anonymized compiled ELF binary</strong></div><div><span>Tool surface</span><strong>Static Linux analysis tools only</strong></div><div><span>Budget</span><strong>25 calls before final submission</strong></div><div><span>Scoring</span><strong>Weighted facts with false-claim penalties</strong></div></div>
+        <div class="report-actions"><a class="button button-primary" href="https://github.com/agentrebench/AgentRE-Bench/blob/fc5696114d28dfb0365d570eba2fc8a4194b8e17/docs/index.html#L702-L817">Inspect the frozen V1 source <span aria-hidden="true">↗</span></a><a class="button button-secondary" href="https://github.com/agentrebench/AgentRE-Bench">Open the benchmark <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </section>
+
+    <section class="next-report"><div class="shell next-report-inner"><div><p class="eyebrow"><span>Next</span> Version 2 · April 2026</p><h2>Calibration becomes the advantage.</h2><p>The same ELF ladder met a broader model field—and the original story changed.</p></div><a class="button button-primary" href="/results/v2-elf/">Continue to Version 2 <span aria-hidden="true">→</span></a></div></section>
+  </main>
+
+  <footer class="site-footer"><div class="shell footer-base"><span>© 2026 AgentRE-Bench</span><span><a href="/">Home</a> · <a href="/#evolution">All versions</a> · <a href="mailto:contact@agentrebench.ai">Contact</a></span></div></footer>
+  <script src="/home.js?v=story-1" defer></script>
+</body>
+</html>

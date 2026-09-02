@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,7 +56,7 @@
       </div>
       <a href="/results/v3-pe/">V3 Results</a>
       <a href="/why-agentre/" aria-current="page">Why AgentRE</a>
-      <a href="/#v2-results">V2 Archive</a>
+      <a href="/results/v2-elf/">V2 Archive</a>
       <a href="https://github.com/agentrebench/AgentRE-Bench">GitHub</a>
       <a class="nav-cta" href="mailto:contact@agentrebench.ai?subject=AgentRE-Bench%20Inquiry">Contact Us</a>
     </div>
@@ -226,7 +226,7 @@
 <script>
 const themeToggle = document.querySelector(".theme-toggle");
 const themeStorageKey = "agentre-theme-v2";
-const savedTheme = localStorage.getItem(themeStorageKey) || "light";
+const savedTheme = localStorage.getItem(themeStorageKey) || "dark";
 document.documentElement.dataset.theme = savedTheme;
 themeToggle.textContent = savedTheme === "dark" ? "Light" : "Dark";
 
