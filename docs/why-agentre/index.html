@@ -35,6 +35,46 @@
   color: var(--text-dim);
   font-size: 0.82rem;
 }
+.reference-list {
+  max-width: 980px;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+.reference-list li {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: start;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+.reference-list .reference-index {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+}
+.reference-list a {
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.42;
+}
+.reference-list a:hover { color: var(--accent); }
+.reference-list small {
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .reference-list li { grid-template-columns: 30px minmax(0, 1fr); gap: 14px; }
+  .reference-list small { grid-column: 2; }
+}
 </style>
 </head>
 <body>
@@ -157,19 +197,6 @@
     </div>
   </section>
 
-  <section id="why-urgent">
-    <div class="container">
-      <div class="section-tag">Why the measurement is urgent</div>
-      <h2 class="section-title">Cyber-capable agents are no longer hypothetical.</h2>
-      <div class="article-copy">
-        <p>Public incidents show that cyber-capable agents are no longer hypothetical. In July 2026, <a href="https://openai.com/index/hugging-face-model-evaluation-security-incident/">OpenAI reported</a> that GPT-5.6 Sol and a more capable pre-release model, operating with reduced cyber refusals during an internal evaluation, found a zero-day in a package proxy, obtained Internet access from a sandboxed environment, escalated privileges, moved laterally, and compromised Hugging Face infrastructure while pursuing benchmark answers.</p>
-        <p>State-backed actors are also adopting AI. <a href="https://www.anthropic.com/news/disrupting-AI-espionage">Anthropic documented</a> a Chinese state-sponsored group using Claude Code in an operation against roughly 30 targets. <a href="https://cloud.google.com/blog/topics/threat-intelligence/threat-actor-usage-of-ai-tools">Google Threat Intelligence Group reported</a> a suspected China-nexus actor using Gemini across reconnaissance, lateral movement, command-and-control support, cloud discovery, and exfiltration work; it also observed APT41 seeking help with C2 development and code obfuscation.</p>
-        <p>DeepSeek appears in a separate evidence stream. <a href="https://arcticwolf.com/resources/blog/the-ai-malware-surge-behavior-attribution-and-defensive-readiness/">Arctic Wolf Labs analyzed more than 22,000 AI-assisted malware samples</a> and found widespread DeepSeek-derived artifacts, with 39% receiving no signature-based antivirus detection at collection time. <a href="https://research.checkpoint.com/2026/browser-only-ransomware-from-llm-hallucinations-to-a-practical-attack-technique/">Check Point Research</a> classified 1,383 of nearly 3,000 DeepSeek-attributed files as malicious or dangerous.</p>
-        <p>The public record does not establish that a named Chinese APT used DeepSeek. It establishes Chinese state-backed use of Claude and Gemini, alongside separate DeepSeek-assisted malware telemetry. Keeping that attribution boundary clear is part of serious threat analysis.</p>
-      </div>
-    </div>
-  </section>
-
   <section id="safety-and-capability">
     <div class="container">
       <div class="section-tag">Safety and capability</div>
@@ -203,8 +230,25 @@
         <p>AgentRE creates infrastructure for longitudinal research. It can measure capability growth across model generations, test regressions before deployment, compare internal or fine-tuned systems, and support reproducible procurement decisions. As models improve, the tasks can evolve while preserving historical comparisons across ELF and PE evaluations.</p>
         <p>The long-term goal is not simply another leaderboard. It is a shared, transparent way for enterprises, researchers, governments, and model developers to evaluate autonomous reverse-engineering systems before placing them inside security-critical workflows.</p>
         <p>Cybersecurity will increasingly depend not only on building more capable models, but on understanding those capabilities with the rigor expected of every other security technology. AgentRE exists to provide that foundation.</p>
-        <p class="source-note">Rendered from <a href="https://github.com/agentrebench/AgentRE-Bench/blob/f63202ff0f618f4e23a833c55cb92c08e5e87d02/version3/WHY_AGENTRE_MATTERS.md"><code>version3/WHY_AGENTRE_MATTERS.md</code></a> at commit <code>f63202f</code>.</p>
+        <p class="source-note">Adapted from <a href="https://github.com/agentrebench/AgentRE-Bench/blob/f63202ff0f618f4e23a833c55cb92c08e5e87d02/version3/WHY_AGENTRE_MATTERS.md"><code>version3/WHY_AGENTRE_MATTERS.md</code></a> at commit <code>f63202f</code>.</p>
       </div>
+    </div>
+  </section>
+
+  <section id="references">
+    <div class="container">
+      <div class="section-tag">References</div>
+      <h2 class="section-title">Sources behind the case for rigorous measurement.</h2>
+      <ol class="reference-list">
+        <li><span class="reference-index">01</span><a href="https://arxiv.org/abs/2608.11469">The Next Challenge for Agentic Cybersecurity: A Realistic, Contamination-Free Reverse Engineering Benchmark</a><small>Spence et al. · 2026</small></li>
+        <li><span class="reference-index">02</span><a href="https://openai.com/index/hugging-face-model-evaluation-security-incident/">Hugging Face model-evaluation security incident</a><small>OpenAI · 2026</small></li>
+        <li><span class="reference-index">03</span><a href="https://www.anthropic.com/news/disrupting-AI-espionage">Disrupting an AI-orchestrated cyber-espionage campaign</a><small>Anthropic</small></li>
+        <li><span class="reference-index">04</span><a href="https://cloud.google.com/blog/topics/threat-intelligence/threat-actor-usage-of-ai-tools">Threat actor usage of AI tools</a><small>Google Threat Intelligence</small></li>
+        <li><span class="reference-index">05</span><a href="https://arcticwolf.com/resources/blog/the-ai-malware-surge-behavior-attribution-and-defensive-readiness/">The AI Malware Surge: Behavior, Attribution, and Defensive Readiness</a><small>Arctic Wolf Labs</small></li>
+        <li><span class="reference-index">06</span><a href="https://research.checkpoint.com/2026/browser-only-ransomware-from-llm-hallucinations-to-a-practical-attack-technique/">Browser-Only Ransomware: From LLM Hallucinations to a Practical Attack Technique</a><small>Check Point Research</small></li>
+        <li><span class="reference-index">07</span><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5">Claude Fable 5 and Mythos 5</a><small>Anthropic</small></li>
+        <li><span class="reference-index">08</span><a href="https://www.anthropic.com/news/fable-safeguards-jailbreak-framework">Fable safeguards and jailbreak framework</a><small>Anthropic</small></li>
+      </ol>
     </div>
   </section>
 </main>
