@@ -90,6 +90,7 @@ img { display: block; max-width: 100%; }
 .desktop-nav a, .site-footer a { transition: color .2s ease; }
 .desktop-nav a:hover, .site-footer a:hover { color: var(--accent-bright); }
 .nav-actions { display: flex; align-items: center; gap: 11px; }
+.persistent-blog-link { display: none; color: var(--text-soft); font-size: .82rem; font-weight: 700; }
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -322,6 +323,7 @@ h2 { max-width: 830px; margin-bottom: 0; font-size: clamp(2.65rem, 5vw, 4.65rem)
 
 @media (max-width: 1080px) {
   .desktop-nav { display: none; }
+  .persistent-blog-link { display: inline-flex; }
   .hero-layout { grid-template-columns: 1fr; gap: 52px; }
   .hero-copy { max-width: 830px; }
   .evidence-console { width: min(100%, 650px); }
