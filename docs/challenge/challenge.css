@@ -162,7 +162,7 @@ html[data-theme="light"] .site-nav { background: rgba(246, 248, 251, 0.86); }
   position: absolute;
   top: calc(100% + 14px);
   left: 0;
-  min-width: 178px;
+  min-width: 230px;
   display: grid;
   gap: 4px;
   padding: 8px;

@@ -89,6 +89,14 @@ img { display: block; max-width: 100%; }
 .desktop-nav { display: flex; align-items: center; gap: 24px; color: var(--text-soft); font-size: .83rem; }
 .desktop-nav a, .site-footer a { transition: color .2s ease; }
 .desktop-nav a:hover, .site-footer a:hover { color: var(--accent-bright); }
+.desktop-nav .nav-menu { position: relative; display: inline-flex; align-items: center; }
+.desktop-nav .nav-menu-trigger { display: inline-flex; align-items: center; gap: 7px; }
+.desktop-nav .nav-menu-trigger::after { content: ""; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid currentColor; opacity: .72; }
+.desktop-nav .nav-dropdown { position: absolute; top: calc(100% + 17px); left: -12px; z-index: 60; min-width: 230px; display: grid; gap: 2px; padding: 8px; border: 1px solid var(--line-strong); background: var(--surface); box-shadow: 0 18px 46px rgba(0, 0, 0, .24); opacity: 0; visibility: hidden; transform: translateY(-6px); pointer-events: none; transition: opacity .15s ease, transform .15s ease, visibility .15s ease; }
+.desktop-nav .nav-dropdown::before { content: ""; position: absolute; top: -17px; right: 0; left: 0; height: 17px; }
+.desktop-nav .nav-dropdown a { display: block; padding: 10px 12px; color: var(--text-soft); white-space: nowrap; }
+.desktop-nav .nav-dropdown a:hover, .desktop-nav .nav-dropdown a[aria-current="page"] { color: var(--text); background: var(--accent-soft); }
+.desktop-nav .nav-menu:hover .nav-dropdown, .desktop-nav .nav-menu:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
 .nav-actions { display: flex; align-items: center; gap: 11px; }
 .persistent-blog-link { display: none; color: var(--text-soft); font-size: .82rem; font-weight: 700; }
 .theme-toggle {
@@ -273,6 +281,7 @@ h2 { max-width: 830px; margin-bottom: 0; font-size: clamp(2.65rem, 5vw, 4.65rem)
 .platform-section { background: var(--bg); }
 .offering-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 78px; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
 .offering-card { min-height: 465px; display: flex; flex-direction: column; padding: 29px; border-right: 1px solid var(--line); }
+.offering-card[id] { scroll-margin-top: 96px; }
 .offering-card:first-child { padding-left: 0; }
 .offering-card:last-child { border-right: 0; }
 .offering-featured { background: linear-gradient(180deg, var(--accent-soft), transparent 78%); }

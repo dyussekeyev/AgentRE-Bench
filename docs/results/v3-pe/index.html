@@ -170,7 +170,7 @@ html[data-theme="light"] .site-nav { background: rgba(246, 248, 251, 0.86); }
   position: absolute;
   top: calc(100% + 14px);
   left: 0;
-  min-width: 178px;
+  min-width: 230px;
   display: grid;
   gap: 4px;
   padding: 8px;
@@ -1004,7 +1004,7 @@ html[data-theme="light"] .results-callout {
   .results-hero .hero-panel { transform: none; }
 }
 </style>
-<link rel="stylesheet" href="/handbook-theme.css?v=blog-1">
+<link rel="stylesheet" href="/handbook-theme.css?v=services-1">
 <script defer src="/handbook-theme.js"></script>
 </head>
 <body>
@@ -1017,19 +1017,20 @@ html[data-theme="light"] .results-callout {
     </a>
     <div class="nav-links">
       <div class="nav-menu">
-        <a class="nav-menu-trigger" href="/challenge/">Challenge</a>
-        <div class="nav-dropdown" aria-label="Challenge pages">
-          <a href="/challenge/rules/">Rules</a>
-          <a href="/challenge/submit/">Submit</a>
-          <a href="/challenge/leaderboard/">Leaderboard</a>
+        <a class="nav-menu-trigger" href="/why-agentre/" aria-haspopup="true">Why AgentRE</a>
+        <div class="nav-dropdown" aria-label="Explore AgentRE">
+          <a href="/why-agentre/">Why AgentRE overview</a>
+          <a href="/#how">How it works</a>
+          <a href="/#benchmark">Benchmark</a>
+          <a href="/#evolution">Benchmark evolution</a>
+          <a href="/results/v3-pe/" aria-current="page">Latest research</a>
+          <a href="/blog/">Blog</a>
+          <a href="/challenge/">Challenge</a>
+          <a href="https://github.com/agentrebench/AgentRE-Bench">GitHub ↗</a>
         </div>
       </div>
-      <a href="/results/v3-pe/" aria-current="page">V3 PE Results</a>
-      <a href="/results/v1-elf/">V1 ELF Results</a>
-      <a href="/results/v2-elf/">V2 ELF Results</a>
-      <a href="#method">Method</a>
-      <a href="/blog/">Blog</a>
-      <a href="https://github.com/agentrebench/AgentRE-Bench">GitHub</a>
+      <a href="/private-evals/">Private Evals</a>
+      <a href="/rl-data/">RL Data</a>
       <a class="nav-cta" href="mailto:contact@agentre-bench.ai?subject=AgentRE-Bench%20Inquiry">Contact Us</a>
     </div>
     <a class="persistent-blog-link" href="/blog/">Blog</a>
