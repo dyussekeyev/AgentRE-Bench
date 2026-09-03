@@ -83,8 +83,14 @@ html[data-theme="light"] .site-nav {
 }
 
 .brand img {
-  width: 30px;
-  height: 30px;
+  width: 260px;
+  height: 61px;
+  flex: 0 0 auto;
+  mix-blend-mode: lighten;
+}
+
+html[data-theme="light"] .brand img {
+  mix-blend-mode: normal;
 }
 
 .nav-links {
@@ -708,6 +714,15 @@ footer {
 }
 
 @media (max-width: 620px) {
+  .brand img {
+    width: 180px;
+    height: 42px;
+  }
+
+  .persistent-blog-link {
+    display: none;
+  }
+
   .container,
   .narrow,
   .handbook-layout {

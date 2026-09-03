@@ -83,8 +83,9 @@ img { display: block; max-width: 100%; }
   backdrop-filter: blur(18px);
 }
 .nav-shell { min-height: 74px; display: flex; align-items: center; gap: 34px; }
-.brand { display: inline-flex; align-items: center; gap: 11px; margin-right: auto; font-family: var(--serif); font-weight: 700; font-size: 1.05rem; letter-spacing: -.02em; }
-.brand img { width: 31px; height: 31px; }
+.brand { display: inline-flex; align-items: center; margin-right: auto; font-family: var(--serif); font-weight: 700; font-size: 1.05rem; letter-spacing: -.02em; }
+.brand img { width: 260px; height: 61px; flex: 0 0 auto; mix-blend-mode: lighten; }
+html[data-theme="light"] .brand img { mix-blend-mode: normal; }
 .brand span span { color: var(--accent-bright); }
 .desktop-nav { display: flex; align-items: center; gap: 24px; color: var(--text-soft); font-size: .83rem; }
 .desktop-nav a, .site-footer a { transition: color .2s ease; }
@@ -356,10 +357,11 @@ h2 { max-width: 830px; margin-bottom: 0; font-size: clamp(2.65rem, 5vw, 4.65rem)
 
 @media (max-width: 720px) {
   .shell { width: min(100% - 36px, 1240px); }
-  .nav-shell { min-height: 66px; }
+  .nav-shell { min-height: 66px; gap: 16px; }
+  .brand img { width: 190px; height: 45px; }
   .theme-label, .nav-cta span { display: none; }
   .theme-toggle { width: 38px; justify-content: center; padding: 0; }
-  .nav-cta { padding: 0 12px; }
+  .nav-cta { display: none; }
   .hero { padding-top: 62px; }
   .hero-layout { min-height: 0; padding-bottom: 54px; gap: 42px; }
   h1 { font-size: clamp(2.8rem, 13vw, 4.35rem); }
@@ -401,6 +403,11 @@ h2 { max-width: 830px; margin-bottom: 0; font-size: clamp(2.65rem, 5vw, 4.65rem)
   .footer-shell { min-height: 0; align-items: flex-start; flex-direction: column; padding-block: 48px; }
   .footer-links { width: 100%; grid-template-columns: 1fr 1fr; }
   .footer-base { align-items: flex-start; flex-direction: column; justify-content: center; }
+}
+
+@media (max-width: 460px) {
+  .brand img { width: 168px; height: 39px; }
+  .persistent-blog-link { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

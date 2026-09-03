@@ -123,7 +123,7 @@ html[data-theme="light"] .site-nav { background: rgba(246, 248, 251, 0.86); }
   font-weight: 700;
 }
 
-.brand img { width: 32px; height: 32px; }
+.brand img { width: 260px; height: 61px; flex: 0 0 auto; }
 
 .nav-links {
   display: flex;
