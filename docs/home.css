@@ -84,8 +84,16 @@ img { display: block; max-width: 100%; }
 }
 .nav-shell { min-height: 74px; display: flex; align-items: center; gap: 34px; }
 .brand { display: inline-flex; align-items: center; margin-right: auto; font-family: var(--serif); font-weight: 700; font-size: 1.05rem; letter-spacing: -.02em; }
-.brand img { width: 260px; height: 61px; flex: 0 0 auto; mix-blend-mode: lighten; }
-html[data-theme="light"] .brand img { mix-blend-mode: normal; }
+.brand img {
+  width: 260px;
+  height: 61px;
+  flex: 0 0 auto;
+  mix-blend-mode: lighten;
+}
+html[data-theme="light"] .brand img {
+  filter: invert(1) hue-rotate(180deg) saturate(.82) contrast(1.08);
+  mix-blend-mode: multiply;
+}
 .brand span span { color: var(--accent-bright); }
 .desktop-nav { display: flex; align-items: center; gap: 24px; color: var(--text-soft); font-size: .83rem; }
 .desktop-nav a, .site-footer a { transition: color .2s ease; }

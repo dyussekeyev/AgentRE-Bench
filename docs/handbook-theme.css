@@ -90,7 +90,8 @@ html[data-theme="light"] .site-nav {
 }
 
 html[data-theme="light"] .brand img {
-  mix-blend-mode: normal;
+  filter: invert(1) hue-rotate(180deg) saturate(0.82) contrast(1.08);
+  mix-blend-mode: multiply;
 }
 
 .nav-links {
