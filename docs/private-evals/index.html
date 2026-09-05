@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Private Evals — AgentRE-Bench</title>
+  <meta name="description" content="Fresh, confidential benchmarks for measuring how industry AI models investigate compiled software—and where their cyber capabilities need to improve.">
+  <meta property="og:title" content="Private Evals — AgentRE-Bench">
+  <meta property="og:description" content="Client-specific cyber evaluations built with fresh artifacts, deterministic ground truth, and complete evidence traces.">
+  <meta property="og:url" content="https://www.agentre-bench.ai/private-evals/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.agentre-bench.ai/og-agentre.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Private Evals — AgentRE-Bench">
+  <meta name="twitter:description" content="Know what your model can do before the data is familiar.">
+  <meta name="twitter:image" content="https://www.agentre-bench.ai/og-agentre.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/home.css?v=logo-theme-1">
+  <link rel="stylesheet" href="/services.css?v=services-1">
+</head>
+<body class="service-page private-evals-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="shell nav-shell">
+      <a class="brand" href="/" aria-label="AgentRE home">
+        <img src="/brand-lockup.webp?v=agentre-2" alt="" width="260" height="61">
+      </a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <div class="nav-menu">
+          <a class="nav-menu-trigger" href="/why-agentre/" aria-haspopup="true">Why AgentRE</a>
+          <div class="nav-dropdown" aria-label="Explore AgentRE">
+            <a href="/why-agentre/">Why AgentRE overview</a>
+            <a href="/#how">How it works</a>
+            <a href="/#benchmark">Benchmark</a>
+            <a href="/#evolution">Benchmark evolution</a>
+            <a href="/results/v3-pe/">Latest research</a>
+            <a href="/blog/">Blog</a>
+            <a href="/challenge/">Challenge</a>
+            <a href="https://github.com/agentrebench/AgentRE-Bench">GitHub ↗</a>
+          </div>
+        </div>
+        <a href="/private-evals/" aria-current="page">Private Evals</a>
+        <a href="/rl-data/">RL Data</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="persistent-blog-link" href="/blog/">Blog</a>
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+          <span class="theme-dot" aria-hidden="true"></span>
+          <span class="theme-label">Light</span>
+        </button>
+        <a class="nav-cta" href="mailto:contact@agentre-bench.ai?subject=AgentRE%20private%20evaluation">Scope an eval <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="service-hero" aria-labelledby="service-title">
+      <div class="shell service-hero-layout">
+        <div class="service-hero-copy">
+          <p class="eyebrow"><span>Private evals</span> Held out by design</p>
+          <h1 id="service-title">Know what your model can do before the data is familiar.</h1>
+          <p class="hero-lede">AgentRE designs confidential reverse-engineering evaluations around your model, tools, and target workflows. Fresh binaries and deterministic ground truth help distinguish generalization from benchmark recall.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="mailto:contact@agentre-bench.ai?subject=AgentRE%20private%20evaluation">Scope a private evaluation <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="#method">See the evaluation method <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="hero-note"><span class="pulse" aria-hidden="true"></span><span>Designed for model developers, security teams, and research organizations evaluating consequential cyber workflows.</span></p>
+        </div>
+
+        <aside class="service-panel" aria-label="Private evaluation brief">
+          <div class="service-panel-head"><span>Evaluation brief</span><span class="service-panel-status">Client-specific</span></div>
+          <div class="service-panel-row"><span class="service-panel-index">01</span><div><strong>Target capability</strong><span>The behaviors, decisions, and workflows your team needs to trust.</span></div></div>
+          <div class="service-panel-row"><span class="service-panel-index">02</span><div><strong>Fresh corpus</strong><span>Held-out artifacts developed outside the public benchmark.</span></div></div>
+          <div class="service-panel-row"><span class="service-panel-index">03</span><div><strong>Controlled run</strong><span>Your models, checkpoints, agents, and tools under repeatable constraints.</span></div></div>
+          <div class="service-panel-row"><span class="service-panel-index">04</span><div><strong>Decision-ready evidence</strong><span>Capability maps, failure modes, and complete episode traces.</span></div></div>
+        </aside>
+      </div>
+
+      <div class="shell service-proof-rail" aria-label="Private evaluation principles">
+        <div><strong>Fresh artifacts</strong><span>Separate from the public suite</span></div>
+        <div><strong>Tailored scope</strong><span>Built around the client decision</span></div>
+        <div><strong>Fixed ground truth</strong><span>Deterministic, replayable scoring</span></div>
+        <div><strong>Complete traces</strong><span>Evidence behind every score</span></div>
+      </div>
+    </section>
+
+    <section class="service-section" id="why-private" aria-labelledby="why-private-title">
+      <div class="shell">
+        <div class="service-intro">
+          <div>
+            <h2 id="why-private-title">Private evaluation of model generalization</h2>
+          </div>
+          <div class="service-intro-copy">
+            <p>Public benchmarks create a shared baseline, but their tasks can eventually appear in training data. A model can improve on the leaderboard without proving it will generalize to new software.</p>
+            <p>AgentRE builds a fresh evaluation surface around the capability your organization needs: unfamiliar artifacts, realistic constraints, and facts that can be verified independently.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="service-section surface" id="capabilities" aria-labelledby="capabilities-title">
+      <div class="shell">
+        <div class="service-intro">
+          <div>
+            <h2 id="capabilities-title">Capabilities and behaviors measured</h2>
+          </div>
+          <div class="service-intro-copy">
+            <p>Every engagement decomposes performance into the technical and operational dimensions that determine whether an agent can increase cyber capability in practice.</p>
+          </div>
+        </div>
+        <div class="service-card-grid">
+          <article class="service-card reveal"><span class="service-card-number">01 / Recovery</span><h3>What did the model recover?</h3><p>Behaviors, API chains, configuration, exact values, infrastructure, and execution details.</p></article>
+          <article class="service-card reveal"><span class="service-card-number">02 / Reliability</span><h3>Can the team depend on it?</h3><p>Completion, refusals, unsupported claims, calibration, and consistency across repeated runs.</p></article>
+          <article class="service-card reveal"><span class="service-card-number">03 / Tool use</span><h3>How did it reach the answer?</h3><p>Tool selection, evidence quality, investigation strategy, time, and budget efficiency.</p></article>
+          <article class="service-card reveal"><span class="service-card-number">04 / Generalization</span><h3>Does it survive novelty?</h3><p>New binaries, stripped variants, altered workflows, and artifacts outside familiar distributions.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="service-section deep" id="method" aria-labelledby="method-title">
+      <div class="shell">
+        <div class="service-intro">
+          <div>
+            <h2 id="method-title">Private evaluation workflow</h2>
+          </div>
+          <div class="service-intro-copy">
+            <p>The evaluation begins with the client question—not a generic task list. We translate that question into a controlled benchmark and an evidence package the technical team and leadership can use.</p>
+          </div>
+        </div>
+        <ol class="service-steps">
+          <li><h3>Define</h3><p>Specify the target capability, model or agent stack, operating constraints, and decision criteria.</p></li>
+          <li><h3>Build</h3><p>Create fresh artifacts, evaluation tasks, expert ground truth, and a scoring rubric aligned to the scope.</p></li>
+          <li><h3>Run</h3><p>Evaluate models, checkpoints, and tool configurations under identical, controlled conditions.</p></li>
+          <li><h3>Deliver</h3><p>Translate the results into capability maps, episode evidence, failure priorities, and next actions.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="service-section" id="deliverables" aria-labelledby="deliverables-title">
+      <div class="shell deliverable-layout">
+        <div class="deliverable-copy">
+          <h2 id="deliverables-title">Evaluation reports and technical artifacts</h2>
+          <p>The same underlying evidence is organized for different audiences: a clear capability view for decision-makers and episode-level detail for the teams building the system.</p>
+        </div>
+        <ol class="deliverable-list">
+          <li><span>01</span><div><strong>Executive capability map</strong><small>What works, what fails, and where risk remains.</small></div></li>
+          <li><span>02</span><div><strong>Model and checkpoint comparison</strong><small>Controlled comparisons across the systems and configurations in scope.</small></div></li>
+          <li><span>03</span><div><strong>Failure-mode taxonomy</strong><small>Exact recovery gaps, hallucinations, refusals, inefficiencies, and incomplete investigations.</small></div></li>
+          <li><span>04</span><div><strong>Episode-level evidence</strong><small>Structured answers, tool calls, transcripts, scores, and artifacts for audit and debugging.</small></div></li>
+          <li><span>05</span><div><strong>Regression plan</strong><small>A repeatable way to measure whether changes improve capability without hiding new failure modes.</small></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="service-section surface" id="integrity" aria-labelledby="integrity-title">
+      <div class="shell integrity-band">
+        <div><h2 id="integrity-title">Separation between evaluation and development</h2></div>
+        <p>Evaluation artifacts remain separate from development and training data. When training follows, AgentRE uses a distinct task pool for learning and fresh private binaries for re-evaluation. That separation shows whether the capability generalized instead of merely memorizing the task.</p>
+      </div>
+    </section>
+
+    <section class="service-cta" aria-labelledby="private-cta-title">
+      <div class="shell">
+        <p class="eyebrow"><span>AgentRE</span> Private evaluations</p>
+        <h2 id="private-cta-title">Measure cyber capability on fresh held-out data.</h2>
+        <p>Tell us the model, workflow, and capability question. We will scope a fresh private benchmark and evidence package around it.</p>
+        <div class="hero-actions"><a class="button button-primary" href="mailto:contact@agentre-bench.ai?subject=AgentRE%20private%20evaluation">Scope a private evaluation <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-shell">
+      <div class="footer-brand"><a class="brand" href="/" aria-label="AgentRE home"><img src="/brand-lockup.webp?v=agentre-2" alt="" width="260" height="61"></a></div>
+      <div class="footer-links">
+        <div><span>Explore</span><a href="/why-agentre/">Why AgentRE</a><a href="/results/v3-pe/">Benchmark</a><a href="/private-evals/">Private Evals</a><a href="/rl-data/">RL Data</a><a href="/blog/">Blog</a></div>
+        <div><span>Connect</span><a href="/challenge/">Challenge</a><a href="https://github.com/agentrebench/AgentRE-Bench">GitHub ↗</a><a href="https://x.com/AgentREBenchAI">X / Twitter ↗</a><a href="mailto:contact@agentre-bench.ai">contact@agentre-bench.ai</a></div>
+      </div>
+    </div>
+    <div class="shell footer-base"><span>© 2026 AgentRE-Bench</span><span>Open benchmark · Client-specific evaluation</span></div>
+  </footer>
+
+  <script src="/home.js?v=services-1" defer></script>
+</body>
+</html>

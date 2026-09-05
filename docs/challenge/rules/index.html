@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentRE Challenge Rules</title>
+<meta name="description" content="Rules, eligibility, safety requirements, scoring methodology, ownership terms, and prize terms for AgentRE Challenge Season 1.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/challenge/challenge.css">
+<link rel="stylesheet" href="/handbook-theme.css?v=logo-theme-1">
+<script defer src="/challenge/challenge-config.js"></script>
+<script defer src="/challenge/challenge-data.js"></script>
+<script defer src="/challenge/challenge-render.js"></script>
+<script defer src="/handbook-theme.js"></script>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/" aria-label="AgentRE home">
+      <img src="/brand-lockup.webp?v=agentre-2" alt="" width="260" height="61">
+    </a>
+    <div class="nav-links">
+      <div class="nav-menu">
+        <a class="nav-menu-trigger" href="/why-agentre/" aria-haspopup="true">Why AgentRE</a>
+        <div class="nav-dropdown" aria-label="Explore AgentRE">
+          <a href="/why-agentre/">Why AgentRE overview</a>
+          <a href="/#how">How it works</a>
+          <a href="/#benchmark">Benchmark</a>
+          <a href="/#evolution">Benchmark evolution</a>
+          <a href="/results/v3-pe/">Latest research</a>
+          <a href="/blog/">Blog</a>
+          <a href="/challenge/">Challenge</a>
+          <a href="https://github.com/agentrebench/AgentRE-Bench">GitHub ↗</a>
+        </div>
+      </div>
+      <a href="/private-evals/">Private Evals</a>
+      <a href="/rl-data/">RL Data</a>
+      <a class="nav-cta" data-config-href="registrationPageUrl" href="#">Register</a>
+    </div>
+    <a class="persistent-blog-link" href="/blog/">Blog</a>
+    <button class="theme-toggle" type="button" aria-label="Switch color theme">Light</button>
+  </div>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="hero-label"><span data-config="competitionName">AgentRE Challenge</span>&nbsp;/ Rules</div>
+        <h1>AgentRE Challenge Official Rules</h1>
+        <p class="subtitle">
+          Official Rules v1.1, effective August 3, 2026. Season 1 rewards original, safe, reproducible <span data-config="architecture">Linux x86-64 ELF</span> challenges that create meaningful <span data-config="analysisMode">static analysis</span> difficulty for frontier AI agents.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" data-config-href="registrationPageUrl" href="#">Register Entry</a>
+          <a class="btn btn-secondary" href="/challenge/submit/">Submission Instructions</a>
+          <a class="btn btn-secondary" href="/challenge/leaderboard/">Leaderboard</a>
+        </div>
+      </div>
+      <aside class="hero-panel" aria-label="Rules snapshot">
+        <div class="panel-top">
+          <div class="panel-title">Season Status</div>
+          <span class="status-pill" data-status-label>Upcoming</span>
+        </div>
+        <div class="fact-grid">
+          <div class="fact-card"><strong data-config="prizeAmount">$1,000</strong><span>First-place cash</span></div>
+          <div class="fact-card"><strong data-config="minimumAcceptedSubmissions">1</strong><span>Minimum accepted entry</span></div>
+          <div class="fact-card"><strong data-config="maximumBinarySize">10 MB</strong><span>Maximum binary size</span></div>
+          <div class="fact-card"><strong data-config="maximumEntriesPerEntrant">3</strong><span>Max entries per entrant</span></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="eligibility">
+    <div class="container">
+      <div class="section-tag">Eligibility</div>
+      <h2 class="section-title">Free skill contest with objective technical requirements.</h2>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Entrant eligibility</h3>
+          <ul>
+            <li>Entry is free; no purchase or payment is required.</li>
+            <li>Entrants must be at least 18 years old.</li>
+            <li>Entrants need a valid GitHub account.</li>
+            <li>Season 1 is open worldwide, except where prohibited, provided AgentRE can legally issue any applicable prize payment to the entrant or designated prize recipient.</li>
+            <li>AgentRE organizers, judges, contractors involved in judging, and members of their immediate households are not eligible.</li>
+            <li>Individuals and teams may enter, but each team must designate one prize recipient.</li>
+            <li>Each entrant or team may submit up to <span data-config="maximumEntriesPerEntrant">3</span> entries and may win only one prize.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Submission eligibility</h3>
+          <ul>
+            <li>Original work or work the entrant has the right to submit.</li>
+            <li>Target <span data-config="architecture">Linux x86-64 ELF</span> and support <span data-config="analysisMode">static analysis</span>.</li>
+            <li>Remain under <span data-config="maximumBinarySize">10 MB</span>.</li>
+            <li>Include checksums and private ground truth.</li>
+            <li>Public source release is not required. Finalist or prize-eligible entries may be asked to provide complete source code and build instructions privately for verification.</li>
+            <li>Privately provided source and build materials remain confidential unless the entrant chooses to publish them.</li>
+            <li>Have clear, verifiable intended behavior and a matching binary SHA-256.</li>
+            <li>Give the organizer account access before the deadline and keep access available until results are final.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="submission-freeze">
+    <div class="container">
+      <div class="section-tag">Submission Freeze</div>
+      <h2 class="section-title">The final tag freezes the evaluated commit.</h2>
+      <div class="grid-2">
+        <article class="code-panel" aria-label="Final tag commands"><pre>git tag <span data-config="finalSubmissionTag">agentre-season-1-final</span>
+git push origin <span data-config="finalSubmissionTag">agentre-season-1-final</span></pre></article>
+        <article class="callout warning">
+          <h3>Frozen commit rules</h3>
+          <ul>
+            <li>The tag <code data-config="finalSubmissionTag">agentre-season-1-final</code> must exist before the final deadline.</li>
+            <li>AgentRE records the resolved full 40-character commit SHA.</li>
+            <li>Only that frozen commit is evaluated.</li>
+            <li>Branch changes after the deadline do not alter the entry.</li>
+            <li>Moving or deleting the final tag may disqualify the entry.</li>
+            <li>The binary checksum and submitted binary must match.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="disallowed">
+    <div class="container">
+      <div class="section-tag">Disallowed Submissions</div>
+      <h2 class="section-title">Do not win by creating risk, abusing infrastructure, or breaking tools.</h2>
+      <div class="grid-2">
+        <article class="callout danger">
+          <h3>Unsafe behavior</h3>
+          <ul>
+            <li>Real credential theft or credential collection</li>
+            <li>Persistence intended for deployment</li>
+            <li>Worm or propagation behavior</li>
+            <li>Destructive payloads or ransomware behavior</li>
+            <li>Exploitation of third-party systems</li>
+            <li>External downloads or required network access</li>
+            <li>Real command-and-control behavior</li>
+            <li>Collection of personal or confidential data</li>
+          </ul>
+        </article>
+        <article class="callout danger">
+          <h3>Invalid competition tactics</h3>
+          <ul>
+            <li>Third-party proprietary code without authorization</li>
+            <li>Malformed files whose primary purpose is crashing tools</li>
+            <li>Pathological or intentionally excessive resource consumption whose primary purpose is to abuse evaluation infrastructure rather than create a reverse-engineering challenge</li>
+            <li>Build scripts intended to damage or compromise infrastructure</li>
+            <li>Repository workflows intended to execute automatically</li>
+            <li>Dependencies on inaccessible external services or files</li>
+            <li>Entries that merely exploit unsupported file formats or infrastructure failures</li>
+          </ul>
+        </article>
+      </div>
+      <p class="section-kicker" style="margin-top: 22px;">Legitimately difficult binaries are valid even when frontier models cannot solve them. Difficulty alone is never grounds for rejection. Controlled simulation of security-relevant behavior may be accepted only when inert, isolated, safe, clearly disclosed, and useful for reverse-engineering evaluation.</p>
+    </div>
+  </section>
+
+  <section id="disqualification">
+    <div class="container">
+      <div class="section-tag">Disqualification</div>
+      <h2 class="section-title">Disqualification is based on documented reasons.</h2>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Technical and safety violations</h3>
+          <ul>
+            <li>Copied or unauthorized code</li>
+            <li>False ground truth or fabricated model-test claims</li>
+            <li>Hidden malicious behavior</li>
+            <li>Credential theft or collection</li>
+            <li>Persistence, propagation, ransomware, or destructive behavior</li>
+            <li>Attempts to attack the harness or evaluation infrastructure</li>
+            <li>Deliberate, challenge-unrelated resource exhaustion intended to abuse evaluation infrastructure</li>
+            <li>Automatic GitHub workflows targeting reviewers</li>
+            <li>Undisclosed packing, obfuscation, or unusual compiler techniques</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Integrity violations</h3>
+          <ul>
+            <li>Tampering with tags, commits, checksums, or repository history</li>
+            <li>Harassment, collusion, or attempts to manipulate judging</li>
+            <li>Failure to preserve repository access</li>
+            <li>Violating GitHub Terms</li>
+          </ul>
+          <p>Private notes should record the specific reason even when public status only says Ineligible.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="agentre-rights">
+    <div class="container">
+      <div class="section-tag">Evaluation Rights</div>
+      <h2 class="section-title">AgentRE may inspect, validate, score, and reject entries when needed.</h2>
+      <div class="grid-3">
+        <article class="card">
+          <h3>Validation</h3>
+          <ul>
+            <li>Reject unsafe, copied, trivial, broken, unverifiable, or low-quality submissions</li>
+            <li>Request source and build instructions privately from finalist or prize-eligible entrants when needed</li>
+            <li>Inspect privately provided source and rebuild binaries for verification</li>
+            <li>Compare rebuilt binaries against submitted artifacts</li>
+            <li>Test different compilation environments when necessary</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Evaluation</h3>
+          <ul>
+            <li>Evaluate against multiple AI agents</li>
+            <li>Conduct manual scoring review</li>
+            <li>Disqualify rule violations</li>
+            <li>Decline to execute any artifact</li>
+            <li>Withhold sensitive implementation details</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Publication</h3>
+          <ul>
+            <li>Publish approved GitHub handles</li>
+            <li>Publish approved challenge titles</li>
+            <li>Publish rankings and aggregate scores</li>
+            <li>Publish sanitized summaries</li>
+            <li>Keep private source, build materials, ground truth, and notes confidential</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="ownership">
+    <div class="container">
+      <div class="section-tag">Ownership And Licensing</div>
+      <h2 class="section-title">Participants retain ownership of their work.</h2>
+      <div class="grid-2">
+        <article class="callout">
+          <h3>Limited competition permission</h3>
+          <p>By entering, participants grant AgentRE a limited, nonexclusive permission to access and clone the private repository, inspect and rebuild the submission, evaluate it against AI models, store an internal evaluation copy, and publish approved handle, title, score, rank, and sanitized results.</p>
+        </article>
+        <article class="callout warning">
+          <h3>Separate written agreement required</h3>
+          <ul>
+            <li>Selling the source or binary</li>
+            <li>Publishing private source or ground truth</li>
+            <li>Commercial model training use</li>
+            <li>Permanent redistribution</li>
+            <li>Adding the entry to a paid private benchmark</li>
+            <li>Public release of source or binaries</li>
+          </ul>
+        </article>
+      </div>
+      <p class="section-kicker" style="margin-top: 22px;">Verification is for reproducibility, safety, and result integrity. It does not require entrants to open-source or publicly disclose their research.</p>
+    </div>
+  </section>
+
+  <section id="prize">
+    <div class="container">
+      <div class="section-tag">Prize Terms</div>
+      <h2 class="section-title">First- and second-place awards for the hardest valid binaries.</h2>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Core award clauses</h3>
+          <p><strong>First place:</strong> The eligible submission with the lowest aggregate correctness score receives <span data-config="prizeAmount">$1,000</span> USD plus <span data-config="firstPlaceSubscriptionPrize">one month of the recipient's choice of ChatGPT Pro or Claude Max 20x</span>. At least <span data-config="minimumAcceptedSubmissions">1</span> entry must pass validation, the evaluation must produce a reliable result, and the submission must be lowest-scoring on at least <span data-config="minimumModelPanelWinsForPrize">4</span> of the 6 official model evaluations.</p>
+          <p><strong>Second place:</strong> The next-highest-ranked distinct eligible submission after tie-breaks receives <span data-config="secondPlaceSubscriptionPrize">one month of the recipient's choice of ChatGPT Pro or Claude Max 5x</span>.</p>
+          <p>All rankings are based solely on AgentRE-verified evaluations performed against the frozen submission commit under the published harness, model panel, budgets, and scoring methodology. Participant-reported results are informational and do not determine award recipients.</p>
+        </article>
+        <article class="card">
+          <h3>Award conditions</h3>
+          <ul>
+            <li>No purchase or payment is required to enter or claim an award.</li>
+            <li>First and second place are determined after all published tie-breakers.</li>
+            <li>If an exact first-place tie remains, tied entries divide the <span data-config="prizeAmount">$1,000</span> equally and each receives the first-place subscription award. No separate second-place award is issued.</li>
+            <li>If an exact second-place tie remains, each tied entry receives the second-place subscription award.</li>
+            <li>If no entry satisfies the minimum requirements, including the <span data-config="minimumModelPanelWinsForPrize">4</span>-of-6 first-place requirement, AgentRE may decline to issue either award.</li>
+            <li>The competition is not sponsored, endorsed, or administered by GitHub.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="grid-2" style="margin-top: 22px;">
+        <article class="callout">
+          <h3>Recipient verification and fulfillment</h3>
+          <ul>
+            <li>Each provisional recipient has seven calendar days to provide legal name, mailing address, payment information if applicable, age and eligibility confirmation, any reasonably necessary U.S. tax documentation, and a signed eligibility and rights confirmation.</li>
+            <li>Cash payment and subscription choice will be arranged privately with each recipient.</li>
+            <li>AgentRE will provide each award within 14 business days after verification.</li>
+            <li>Failure to respond or verify eligibility may result in the award passing to the next-ranked eligible entry.</li>
+          </ul>
+        </article>
+        <article class="callout warning">
+          <h3>Taxes</h3>
+          <p>Recipients are responsible for applicable taxes. Awards are generally taxable income in the United States, even when no reporting form is issued.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="scoring">
+    <div class="container">
+      <div class="section-tag">Scoring Methodology</div>
+      <h2 class="section-title">The winning binary is the one the official panel understands least.</h2>
+      <p class="section-kicker">Official model score measures how much of the required binary behavior the model correctly recovered. Entry difficulty score is <strong>100 - average official model correctness</strong>. Higher difficulty score ranks higher. First place must also satisfy the <span data-config="minimumModelPanelWinsForPrize">4</span>-of-6 model-win requirement.</p>
+      <div class="score-grid" data-render="scoring" aria-label="Scoring method"></div>
+      <div class="grid-2" style="margin-top: 22px;">
+        <article class="callout">
+          <h3>Standardized evaluation</h3>
+          <ul>
+            <li>Same harness commit</li>
+            <li>Same system prompt and scoring rubric</li>
+            <li>Same static-analysis tools</li>
+            <li>Same tool-call limit, token budget, time limit, and attempt policy</li>
+            <li>Same private ground-truth scoring method</li>
+          </ul>
+        </article>
+        <article class="callout warning">
+          <h3>Invalid runs are not scored as zero</h3>
+          <ul>
+            <li>Safety refusals unrelated to technical difficulty</li>
+            <li>Infrastructure failures, API errors, or tool crashes</li>
+            <li>Infrastructure failures caused by challenge-unrelated resource abuse</li>
+            <li>Malformed or unsupported binaries</li>
+            <li>Missing files or undocumented dependencies</li>
+          </ul>
+        </article>
+      </div>
+      <p class="section-kicker" style="margin-top: 22px;">A model's failure to solve a valid, difficult binary within the standard evaluation budget is a valid outcome, not an infrastructure failure.</p>
+      <div class="grid-2" style="margin-top: 22px;">
+        <article class="card">
+          <h3>Reported result metrics</h3>
+          <ul data-render="score-metrics"></ul>
+        </article>
+        <article class="card">
+          <h3>Panel-win requirement</h3>
+          <p>For first-place eligibility, the winning entry must have the lowest correctness score on at least <span data-config="minimumModelPanelWinsForPrize">4</span> of the 6 official models when compared with the other eligible entries. If multiple entries tie for the lowest valid score on a model, each tied entry may count that model as a panel win.</p>
+        </article>
+        <article class="card">
+          <h3>Ground truth is a validation requirement</h3>
+          <p>Poor, incomplete, or false ground truth should fail validation instead of being treated as a small scoring penalty.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="allowed-tools">
+    <div class="container">
+      <div class="section-tag">Allowed Tools</div>
+      <h2 class="section-title">Official evaluations use the standard AgentRE static-analysis tool set.</h2>
+      <p class="section-kicker">Season 1 models receive the same fixed tools exposed by the AgentRE harness, running from the official <code data-config="officialToolEnvironment.dockerImage">agentre-bench-tools:latest</code> image built from <code data-config="officialToolEnvironment.dockerfilePath">Dockerfile.tools</code>. Models may not generate and execute arbitrary Python or code in any other programming language. Otherwise, a model could build custom parsers, symbolic executors, deobfuscators, or entirely new analysis tools during evaluation, making model comparisons unfair and difficult to reproduce. The tool-call budget is <span data-config="officialToolEnvironment.maxToolCalls">25</span> calls, with a <span data-config="officialToolEnvironment.toolTimeoutSeconds">30</span>-second per-tool timeout.</p>
+      <div class="grid-3" data-render="allowed-tools" aria-label="Allowed AgentRE tools"></div>
+      <div class="grid-2" style="margin-top: 22px;">
+        <article class="callout">
+          <h3>Docker image</h3>
+          <p>AgentRE should build and pin the official image for the harness commit used at contest opening:</p>
+          <div class="code-panel"><pre data-config="officialToolEnvironment.dockerBuildCommand">docker build --platform linux/amd64 -t agentre-bench-tools:latest -f Dockerfile.tools .</pre></div>
+        </article>
+        <article class="callout warning">
+          <h3>Not allowed in official scoring</h3>
+          <ul data-render="disallowed-tools"></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="official-panel">
+    <div class="container">
+      <div class="section-tag">Official Model Panel</div>
+      <h2 class="section-title">Season 1 uses the public AgentRE frontier-model panel.</h2>
+      <p class="section-kicker">Only AgentRE runs against the official panel count toward rankings and awards. Participant tests against other models may be mentioned, but they do not determine rankings.</p>
+      <div class="grid-3" data-render="model-panel" aria-label="Official model panel"></div>
+      <p class="section-kicker" style="margin-top: 22px;">If a model becomes unavailable, materially changes, cannot complete valid harness runs, or is blocked from participating, AgentRE may replace it with a reasonably comparable model. Any substitution will be publicly documented before final results are announced. Exact model identifiers, harness commit, prompt version, budgets, attempt policy, and test date should be recorded when submissions open.</p>
+    </div>
+  </section>
+
+  <section id="tie-breaks">
+    <div class="container">
+      <div class="section-tag">Tie Breaks</div>
+      <h2 class="section-title">Tie-break order is deterministic.</h2>
+      <ol class="numbered-steps" data-render="tie-breaks"></ol>
+    </div>
+  </section>
+
+  <section id="result-challenges">
+    <div class="container">
+      <div class="section-tag">Result Challenges</div>
+      <h2 class="section-title">Factual challenges have a short review window.</h2>
+      <div class="grid-2">
+        <article class="callout">
+          <h3>48-hour dispute window</h3>
+          <p>AgentRE publishes provisional results, allows 48 hours for factual challenges, resolves valid errors, then publishes final results.</p>
+        </article>
+        <article class="callout warning">
+          <h3>Challenge scope</h3>
+          <p>Challenges must identify a checksum, harness, scoring, eligibility, or clerical error. Disagreement with the published judging criteria is not grounds for reconsideration.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="changes-cancellation">
+    <div class="container">
+      <div class="section-tag">Changes And Cancellation</div>
+      <h2 class="section-title">Rule changes are limited after entries freeze.</h2>
+      <p class="section-kicker">AgentRE may modify, suspend, or cancel the competition only when fraud, a security incident, a material technical failure, a legal restriction, or another circumstance outside AgentRE control prevents fair operation. Material rule or scoring changes will not be applied retroactively to already-frozen submissions unless necessary to address a security or integrity issue.</p>
+      <p class="section-kicker">AgentRE may decline to issue awards when no entry qualifies, no entry receives a reliable valid evaluation, or the evaluation cannot produce a reliable result.</p>
+    </div>
+  </section>
+
+  <section id="strong-challenge">
+    <div class="container">
+      <div class="section-tag">What Makes A Strong Challenge</div>
+      <h2 class="section-title">Focus on real static reverse-engineering difficulty.</h2>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Encouraged</h3>
+          <ul>
+            <li>Indirect data flow</li>
+            <li>State-machine reconstruction</li>
+            <li>Custom protocol recovery</li>
+            <li>Algorithm identification</li>
+            <li>Cross-function reasoning</li>
+            <li>Sparse but recoverable semantic clues</li>
+            <li>Compiler optimization effects</li>
+            <li>Meaningful control-flow analysis</li>
+            <li>Correct inference of overall intent</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Discouraged</h3>
+          <ul>
+            <li>Broken files</li>
+            <li>Tool crashes</li>
+            <li>Excessive file size</li>
+            <li>Challenge-unrelated resource abuse targeting evaluation infrastructure</li>
+            <li>Undocumented runtime dependencies</li>
+            <li>Unsafe payloads</li>
+            <li>Infrastructure abuse</li>
+            <li>Aggressive anti-analysis as the primary challenge</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="/challenge/">Challenge</a>
+      <a href="/challenge/rules/">Rules</a>
+      <a href="/challenge/submit/">Submit</a>
+      <a href="/challenge/leaderboard/">Leaderboard</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/agentrebench/AgentRE-Bench">GitHub</a>
+      <a href="https://x.com/AgentREBenchAI">X / Twitter</a>
+    </div>
+    <p>AgentRE-Bench - LLM reverse engineering benchmark with deterministic scoring.</p>
+  </div>
+</footer>
+</body>
+</html>

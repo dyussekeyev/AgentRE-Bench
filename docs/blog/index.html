@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why AgentRE Starts With Static Analysis — AgentRE-Bench</title>
+  <meta name="description" content="A closer look at why AgentRE uses static analysis, private evaluations, deterministic ground truth, and agent trajectories to measure AI reverse engineering.">
+  <link rel="canonical" href="https://www.agentre-bench.ai/blog/">
+  <meta property="og:title" content="Why AgentRE Starts With Static Analysis">
+  <meta property="og:description" content="Why AgentRE begins with controlled static analysis—and how private evaluations, trajectories, and reinforcement learning fit into the larger platform.">
+  <meta property="og:url" content="https://www.agentre-bench.ai/blog/">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Why AgentRE Starts With Static Analysis">
+  <meta name="twitter:description" content="Why AgentRE begins with controlled static analysis—and how private evaluations, trajectories, and reinforcement learning fit into the larger platform.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/challenge/challenge.css">
+  <link rel="stylesheet" href="/handbook-theme.css?v=logo-theme-1">
+  <link rel="stylesheet" href="/blog/blog.css?v=2">
+  <script defer src="/handbook-theme.js"></script>
+</head>
+<body class="blog-page">
+  <nav class="site-nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/" aria-label="AgentRE home">
+        <img src="/brand-lockup.webp?v=agentre-2" alt="" width="260" height="61">
+      </a>
+      <div class="nav-links">
+        <div class="nav-menu">
+          <a class="nav-menu-trigger" href="/why-agentre/" aria-haspopup="true">Why AgentRE</a>
+          <div class="nav-dropdown" aria-label="Explore AgentRE">
+            <a href="/why-agentre/">Why AgentRE overview</a>
+            <a href="/#how">How it works</a>
+            <a href="/#benchmark">Benchmark</a>
+            <a href="/#evolution">Benchmark evolution</a>
+            <a href="/results/v3-pe/">Latest research</a>
+            <a href="/blog/" aria-current="page">Blog</a>
+            <a href="/challenge/">Challenge</a>
+            <a href="https://github.com/agentrebench/AgentRE-Bench">GitHub ↗</a>
+          </div>
+        </div>
+        <a href="/private-evals/">Private Evals</a>
+        <a href="/rl-data/">RL Data</a>
+        <a class="nav-cta" href="mailto:contact@agentre-bench.ai?subject=AgentRE-Bench%20Inquiry">Contact Us</a>
+      </div>
+      <a class="persistent-blog-link" href="/blog/" aria-current="page">Blog</a>
+      <button class="theme-toggle" type="button" aria-label="Switch color theme">Light</button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero blog-hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-label">AgentRE-Bench journal / Methodology</div>
+          <h1>Why AgentRE Starts With Static Analysis</h1>
+          <div class="blog-intro">
+            <p>Reverse engineering is a hard problem for AI, and not because models have never seen assembly, IDA screenshots, malware reports, or reverse engineering tutorials. They have seen all of that. The harder question is whether a model can take an unfamiliar compiled binary, investigate the evidence available to it, reason about what the binary is doing, and produce an answer that is actually correct. That is the capability AgentRE is trying to measure.</p>
+            <p>AgentRE does not try to recreate every tool or workflow available to a professional reverse engineer, and that is deliberate. We start with a controlled static analysis environment because before asking whether an AI agent can operate an entire reverse engineering workstation, we want to understand how much of the underlying problem it can solve on its own. The current benchmark is designed around that narrower question.</p>
+          </div>
+          <div class="article-meta"><span>AgentRE-Bench</span><span>Methodology</span><span>8 min read</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-static-analysis">
+      <div class="container">
+        <h2 class="section-title">Why static analysis?</h2>
+        <div class="article-copy">
+          <p>A professional reverse engineer may use IDA, Ghidra, Binary Ninja, a debugger, Python scripts, dynamic analysis, memory dumps, network captures, documentation, plugins, and years of accumulated tooling. All of those things are useful, but they also make a basic evaluation question harder to answer: what did the model actually understand?</p>
+          <p>If a model is given a powerful decompiler that reconstructs large parts of a program for it, the final result becomes a combination of model capability and tool capability. There is nothing wrong with measuring that, and richer tool environments are something we want to explore as AgentRE develops. It is simply a different experiment from the one we are running today.</p>
+          <p>The current AgentRE environment asks whether an agent can inspect a compiled binary using relatively primitive static analysis tools and recover meaningful facts about its behavior. That includes execution techniques, process injection, API usage, encoded strings, encryption, keys, C2 information, anti-analysis behavior, and other implementation details. The model still has to investigate the binary, decide which evidence matters, connect information across multiple tool calls, and determine which conclusions are actually supported.</p>
+          <p>That last part is especially important. Models are very good at producing explanations that sound plausible, and in security that is not enough. A reverse engineering system needs to distinguish between evidence and a likely guess. If a model claims that a binary uses a specific technique, we want to know whether that technique is actually there.</p>
+          <p>Reverse engineering works particularly well for this type of evaluation because there is a ground truth underneath the task. A binary either contains a technique or it does not. An encryption key is either correct or incorrect. An encoded value either decodes to the expected value or it does not. That gives us deterministic feedback, which is still relatively rare in evaluations of complex agent behavior.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="controlled-does-not-mean-easy">
+      <div class="container">
+        <h2 class="section-title">Controlled does not mean easy</h2>
+        <div class="article-copy">
+          <p>One criticism of controlled benchmarks is that they do not perfectly represent production environments. That is fair. Analyzing one of our binaries is not the same as spending several days reversing a sophisticated malware family in IDA, and AgentRE is not intended to collapse every part of reverse engineering into a single leaderboard.</p>
+          <p>The goal is to isolate specific capabilities and make them measurable. The public benchmark contains dozens of artifacts across multiple generations, including stripped and unstripped binaries and Windows samples implementing techniques such as APC injection, process hollowing, reflective loading, direct syscall resolution, remote PE execution, anti-analysis behavior, encryption, and multi-stage execution. Pairing stripped and unstripped versions of the same artifact also lets us examine how much a model depends on symbols and other compiler-provided information compared with evidence that remains in the binary itself.</p>
+          <p>The samples are controlled because we need to know exactly what behavior exists before we can evaluate whether a model recovered it correctly. That allows us to score partial recovery, penalize unsupported technique claims, measure exact-value recovery, and compare models against the same objective ground truth. For this benchmark, we would rather know precisely what the correct answer is than ask another language model whether a response appears convincing.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="public-benchmark-is-only-part-of-agentre">
+      <div class="container">
+        <h2 class="section-title">The public benchmark is only part of AgentRE</h2>
+        <div class="article-copy">
+          <p>A public benchmark has an unavoidable problem. Once the benchmark is released, it becomes part of the internet. The binaries, source code, writeups, transcripts, papers, GitHub discussions, and benchmark results can eventually become part of future training data, which makes it increasingly difficult to distinguish capability from familiarity.</p>
+          <p>That is why private evaluation is a major part of where we are taking AgentRE. A lab or security company evaluating a model needs to know how that model performs on binaries it could not simply have encountered during training. The best way to do that is to maintain evaluation artifacts that are not released publicly and continually introduce new held-out tasks.</p>
+          <p>A private AgentRE evaluation is therefore intended to provide more than a leaderboard score. We can measure technique recovery, evidence grounding, hallucinations, decoded values, behavioral reconstruction, tool usage, completion reliability, and how performance changes as the binaries become more difficult. The purpose is to show not only whether a model succeeded, but where it failed and what kind of failure occurred.</p>
+          <p>For a model developer, that creates something a public benchmark cannot provide: a continuously refreshed, contamination-resistant test set. A lab can use a private evaluation to determine whether a new checkpoint, post-training recipe, reasoning strategy, tool policy, or agent architecture actually improved reverse engineering on unseen data.</p>
+          <p>The distinction between evaluation and development data is important here. If a team repeatedly optimizes against the exact same private test set, the test eventually stops being meaningful. The goal is instead to evaluate a model, identify weaknesses, train against separate development tasks, and then measure the resulting model against fresh held-out binaries. Private evaluation becomes part of the development loop without becoming the training set itself.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="where-reinforcement-learning-becomes-interesting">
+      <div class="container">
+        <h2 class="section-title">Where reinforcement learning becomes interesting</h2>
+        <div class="article-copy">
+          <p>The same properties that make reverse engineering useful for evaluation also make it useful for reinforcement learning. RL works best when useful behavior can be rewarded and incorrect behavior can be identified with relatively high confidence. Reverse engineering gives us unusually rich feedback because many components of the task can be verified directly.</p>
+          <p>Consider an agent analyzing a binary with several behaviors. It may correctly identify process hollowing, recover the encryption algorithm but produce the wrong key, miss an anti-analysis technique, and claim DLL injection even though it is not present. Those outcomes do not need to be reduced to a single pass or fail label. They can each become part of the reward signal.</p>
+          <p>Correct discoveries can receive positive reward, unsupported claims can be penalized, exact-value recovery can receive stronger reward than a vague description, and evidence-grounded conclusions can be treated differently from guesses. Efficiency can also matter. An agent that eventually reaches the right answer after wasting most of its tool budget is behaving differently from an agent that finds the relevant evidence quickly and verifies its conclusion.</p>
+          <p>This means the training objective can extend beyond teaching a model what answer to produce. It can teach the model how to investigate a binary.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="trajectory-is-part-of-the-data">
+      <div class="container">
+        <h2 class="section-title">The trajectory is part of the data</h2>
+        <div class="article-copy">
+          <p>The binary itself is only one part of an AgentRE task. Every run also produces a trajectory showing how the agent approached the problem. We can observe which tools it selected, which evidence it focused on, what it ignored, when it changed its hypothesis, whether it verified an assumption before committing to it, and where it spent time on an unproductive path.</p>
+          <p>That trajectory matters because two models can arrive at the same final answer in very different ways. One may identify the correct technique from strong evidence, while another may guess correctly because the technique is common. Another model may reconstruct most of the binary accurately and then lower its score by adding unsupported claims. A different model may reason correctly throughout the episode but use its tool budget so inefficiently that it never submits a final answer.</p>
+          <p>Those are different failure modes, and they should not all produce the same training signal. When trajectories are paired with deterministic ground truth, evaluation data can begin to support much richer post-training. The useful data is not only the final answer. It is the sequence of decisions that led to it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="from-evaluation-to-training">
+      <div class="container">
+        <h2 class="section-title">From evaluation to training</h2>
+        <div class="article-copy">
+          <p>This creates a natural loop for AgentRE: evaluate a model, identify the failures, train against those failures, and evaluate again on fresh data. A model that consistently identifies high-level injection families but fails to reconstruct the exact API chain has a specific weakness. A model that performs well until the evidence becomes ambiguous and then starts hallucinating techniques has a different weakness. A model that understands the binary but consistently exhausts its tool budget has another.</p>
+          <p>Each of those failure modes can inform a different training objective. Instead of building a generic cybersecurity RL environment and hoping that a model becomes better at reverse engineering, we can build environments around specific capabilities that we can actually measure. The evaluation tells us where the model is weak, the training environment gives us a way to target that weakness, and a fresh private evaluation tells us whether the improvement generalized.</p>
+          <p>That is the larger direction for AgentRE. The public benchmark demonstrates the methodology and gives the community a common point of comparison. Private evaluations provide labs with unseen data for measuring model progress. The failures found during those evaluations can inform new training environments, reward functions, and datasets, while new held-out evaluations can determine whether the resulting models actually improved.</p>
+          <p>The result is a loop where evaluation and training reinforce each other rather than existing as separate products.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-this-matters-for-cybersecurity-ai">
+      <div class="container">
+        <h2 class="section-title">Why this matters for cybersecurity AI</h2>
+        <div class="article-copy">
+          <p>There is a lot of discussion about AI agents eventually performing security research autonomously, and reverse engineering will be an important part of that. Models will need to understand software they did not write and do not have source code for. They will need to investigate malware, understand vulnerabilities buried inside compiled programs, and reason about obfuscation, operating system behavior, memory, assembly, control flow, and program execution.</p>
+          <p>Giving those agents better tools will make them more capable, and richer tool environments are something we want to study. But better tooling does not remove the need to reason about the underlying binary. If anything, as agents become more autonomous, understanding what information to extract from those tools and how to connect it becomes more important.</p>
+          <p>AgentRE starts with static analysis because it gives us a controlled environment for measuring that capability. Private evaluations let us measure it on data the model has not seen publicly. Reinforcement learning gives us a way to turn specific failures into training signals, and fresh held-out evaluations tell us whether that training produced a real improvement.</p>
+          <p>That is where AgentRE is going. We are less interested in maintaining a benchmark that only ranks today's models than in building a reverse engineering evaluation and training platform that helps make the next generation of models substantially better at the work.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/why-agentre/">Why AgentRE</a>
+        <a href="/results/v3-pe/">V3 Results</a>
+        <a href="/challenge/">Challenge</a>
+        <a href="https://github.com/agentrebench/AgentRE-Bench">GitHub</a>
+        <a href="https://x.com/AgentREBenchAI">X / Twitter</a>
+        <a href="mailto:contact@agentre-bench.ai?subject=AgentRE-Bench%20Inquiry">contact@agentre-bench.ai</a>
+      </div>
+      <p>AgentRE-Bench &mdash; Reverse-engineering intelligence, measured.</p>
+    </div>
+  </footer>
+
+  <script>
+  const themeToggle = document.querySelector(".theme-toggle");
+  const themeStorageKey = "agentre-theme-v2";
+  const savedTheme = localStorage.getItem(themeStorageKey) || "dark";
+  document.documentElement.dataset.theme = savedTheme;
+  themeToggle.textContent = savedTheme === "dark" ? "Light" : "Dark";
+
+  themeToggle.addEventListener("click", () => {
+    const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem(themeStorageKey, nextTheme);
+    themeToggle.textContent = nextTheme === "dark" ? "Light" : "Dark";
+  });
+  </script>
+</body>
+</html>

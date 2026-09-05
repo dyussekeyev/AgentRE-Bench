@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgentRE Version 2 — Linux ELF benchmark results</title>
+  <meta name="description" content="AgentRE Version 2 found that calibration—not reasoning depth alone—best predicted performance on the 13-task Linux ELF suite.">
+  <meta property="og:title" content="AgentRE Version 2 — Calibration becomes the advantage">
+  <meta property="og:description" content="A broader frontier-model field ran the same source-free Linux ELF benchmark, exposing calibration as the strongest signal.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.agentre-bench.ai/results/v2-elf/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/home.css?v=logo-theme-1">
+  <link rel="stylesheet" href="/version-report.css?v=story-1">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell nav-shell">
+      <a class="brand" href="/" aria-label="AgentRE home"><img src="/brand-lockup.webp?v=agentre-2" alt="" width="260" height="61"></a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <div class="nav-menu">
+          <a class="nav-menu-trigger" href="/why-agentre/" aria-haspopup="true">Why AgentRE</a>
+          <div class="nav-dropdown" aria-label="Explore AgentRE">
+            <a href="/why-agentre/">Why AgentRE overview</a>
+            <a href="/#how">How it works</a>
+            <a href="/#benchmark">Benchmark</a>
+            <a href="/#evolution">Benchmark evolution</a>
+            <a href="/results/v3-pe/">Latest research</a>
+            <a href="/blog/">Blog</a>
+            <a href="/challenge/">Challenge</a>
+            <a href="https://github.com/agentrebench/AgentRE-Bench">GitHub ↗</a>
+          </div>
+        </div>
+        <a href="/private-evals/">Private Evals</a>
+        <a href="/rl-data/">RL Data</a>
+      </nav>
+      <div class="nav-actions"><a class="persistent-blog-link" href="/blog/">Blog</a><button class="theme-toggle" type="button" aria-label="Switch to light theme"><span class="theme-dot" aria-hidden="true"></span><span class="theme-label">Light</span></button><a class="nav-cta" href="mailto:contact@agentre-bench.ai?subject=AgentRE%20evaluation%20inquiry">Evaluate your agent <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </header>
+
+  <main class="report-main" id="main">
+    <section class="report-hero">
+      <div class="shell">
+        <div class="breadcrumb"><a href="/">AgentRE-Bench</a><span>/</span><a href="/#evolution">Benchmark evolution</a><span>/</span><span>Version 2</span></div>
+        <div class="report-hero-layout">
+          <div><p class="report-version">Version 2 · Linux ELF · April 28–29, 2026</p><h1>Calibration becomes the advantage.</h1><p class="report-lede">A broader frontier-model field ran the same 13-task Linux suite. A small, non-thinking model led the final result by completing every task and making fewer unsupported claims.</p></div>
+          <aside class="report-status" aria-label="Version 2 publication status">
+            <div class="report-status-row"><span>Publication</span><strong>Frozen analysis</strong></div>
+            <div class="report-status-row"><span>Comparable baseline</span><strong>V1 · same ELF suite</strong></div>
+            <div class="report-status-row"><span>Raw reports</span><strong class="verified">Retained</strong></div>
+          </aside>
+        </div>
+        <div class="report-stats"><div><strong>13</strong><span>Linux ELF tasks</span></div><div><strong>6</strong><span>ranked model runs</span></div><div><strong>13/13</strong><span>leader submissions</span></div><div><strong>1.92</strong><span>leader false claims/task</span></div></div>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <div class="shell">
+        <div class="report-section-head"><div><p class="eyebrow"><span>01</span> Main score leaderboard</p><h2>Better judgment beat more deliberation on this suite.</h2></div><p>Gemini 3.1 Flash Lite led Main and Total with full coverage. The result is specific to this suite and run; it does not imply that small models are universally better at reverse engineering.</p></div>
+        <div class="report-chart" aria-label="V2 Main score leaderboard">
+          <div class="report-chart-head"><span>Main score leaderboard</span><span>Main · Total · unsupported claims/task</span></div>
+          <div class="report-bar-row"><div class="report-model"><strong>Gemini 3.1 Flash Lite</strong><small>Total .6668 · 1.92 claims/task</small></div><div class="report-track"><span style="--value:56.18%"></span></div><strong class="report-score">0.5618</strong></div>
+          <div class="report-bar-row"><div class="report-model"><strong>Kimi K2.6</strong><small>Total .4966 · 2.08 claims/task</small></div><div class="report-track"><span style="--value:49.66%"></span></div><strong class="report-score">0.4966</strong></div>
+          <div class="report-bar-row"><div class="report-model"><strong>DeepSeek V4 Flash</strong><small>Total .4486 · 3.38 claims/task</small></div><div class="report-track"><span style="--value:44.86%"></span></div><strong class="report-score">0.4486</strong></div>
+          <div class="report-bar-row"><div class="report-model"><strong>DeepSeek V4 Pro</strong><small>Total .6476 · 2.69 claims/task</small></div><div class="report-track"><span style="--value:37.67%"></span></div><strong class="report-score">0.3767</strong></div>
+          <div class="report-bar-row"><div class="report-model"><strong>Claude Opus 4.7</strong><small>Total .5119 · 5.62 claims/task</small></div><div class="report-track"><span style="--value:36.73%"></span></div><strong class="report-score">0.3673</strong></div>
+          <div class="report-bar-row"><div class="report-model"><strong>GPT-5.5</strong><small>Total .2551 · 6.31 claims/task</small></div><div class="report-track"><span style="--value:25.51%"></span></div><strong class="report-score">0.2551</strong></div>
+        </div>
+        <p class="timeline-note">Main averages Levels 1–12. Total adds the Level 13 bonus, so DeepSeek V4 Pro ranks second by Total despite placing fourth on Main. GLM 5.1 and Gemini 3.1 Pro are omitted because they did not complete enough of the suite for a ranked comparison.</p>
+      </div>
+    </section>
+
+    <section class="report-section alt">
+      <div class="shell">
+        <div class="report-section-head"><div><p class="eyebrow"><span>02</span> What V2 taught us</p><h2>The frontier moved—but exact reconstruction still resisted.</h2></div><p>V2 separated the metadata and recognition layer from the deeper execution layer, shaping the Windows tasks that followed.</p></div>
+        <div class="report-grid">
+          <article class="report-card"><span>Calibration</span><h3>Lower overclaiming tracked stronger scores</h3><p>The ranking by hallucination rate closely resembled the final ranking. Plausible but unsupported reports were expensive.</p></article>
+          <article class="report-card"><span>Progress</span><h3>The best Main score rose 15.4%</h3><p>On the same ELF suite, the leading Main result moved from 0.487 in V1 to 0.5618 in V2. This is descriptive across two benchmark generations.</p></article>
+          <article class="report-card"><span>Boundary</span><h3>Recognition improved before decryption</h3><p>Level 13's best bonus result reached 0.2709, but no run recovered its decoded command-and-control value or decoded strings.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <div class="shell">
+        <div class="report-section-head"><div><p class="eyebrow"><span>03</span> Evaluation design</p><h2>The same ladder, a more revealing model field.</h2></div><p>Keeping the core V1 suite stable made the change interpretable. Expanded instrumentation captured reasoning time, failures, coverage, and tool-use patterns alongside correctness.</p></div>
+        <div class="method-facts"><div><span>Input</span><strong>13 source-free Linux ELF binaries</strong></div><div><span>Model field</span><strong>Six ranked runs; two additional DNFs</strong></div><div><span>Constraint</span><strong>25 static-analysis tool calls per task</strong></div><div><span>New signal</span><strong>Reasoning time and operational failures</strong></div></div>
+        <div class="report-actions"><a class="button button-primary" href="https://github.com/agentrebench/AgentRE-Bench/blob/main/version2/ANALYSIS.md">Read the exhaustive V2 analysis <span aria-hidden="true">↗</span></a><a class="button button-secondary" href="https://github.com/agentrebench/AgentRE-Bench/tree/main/version2">Inspect raw V2 materials <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </section>
+
+    <section class="next-report"><div class="shell next-report-inner"><div><p class="eyebrow"><span>Next</span> Version 3 · August 2026</p><h2>From Linux recognition to Windows reconstruction.</h2><p>A new platform, paired stripped artifacts, six models, and 120 independently replayed score rows.</p></div><a class="button button-primary" href="/results/v3-pe/">Continue to Version 3 <span aria-hidden="true">→</span></a></div></section>
+  </main>
+
+  <footer class="site-footer"><div class="shell footer-base"><span>© 2026 AgentRE-Bench</span><span><a href="/">Home</a> · <a href="/#evolution">All versions</a> · <a href="/blog/">Blog</a> · <a href="https://x.com/AgentREBenchAI">X / Twitter</a> · <a href="mailto:contact@agentre-bench.ai">Contact</a></span></div></footer>
+  <script src="/home.js?v=story-1" defer></script>
+</body>
+</html>
